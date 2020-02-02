@@ -1,0 +1,59 @@
+﻿
+@model LoginViewModel;
+
+@{
+    ViewBag.Title = "Logowanie FSC Site";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width = device-width" />
+    <link href="~/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <h1>Zaloguj się</h1>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="text-danger"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="text-danger" placeholder="Hasło" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div calss="form-group">
+                        <div class="checkbox">
+                            <label asp-for="RememberMe">
+                                <input asp-for="RememberMe"/>
+                                @Html.DisplayNameFor(m=>m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <button  type="submit" class="btn btn-primary">Zaloguj</button>
+                        <p>Zapomniałeś hasła? Skontaktuj się z administratorem.</p>
+                    </div>
+                    <div class="separator">
+                        <br>
+                        <p>FSC Site | Michał Zuchowski ©2020</p>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>
