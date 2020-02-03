@@ -4,32 +4,42 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+
 @if (SignInManager.IsSignedIn(User))
 {
-    
+    <body>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+    
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
                 <span>Zalogowany jako:</span>
-                <h2>Hello @UserManager.GetUserName(User)!</h2>
+                <center><h2>@UserManager.GetUserName(User)</h2></center>
 
             </li>
             <li>
                 <a data-toggle="tooltip" data-placement="top" title="Wyloguj" asp-controller="Home" asp-action="Logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                 </a>
-                <button type="submit" class="glyphicon glyphicon-off">Logout</button>
+
             </li>
         </ul>
+        
+        <button type="submit" class="btn btn-info btn-sm">Logout</button>
     </form>
+   </body>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        
-        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    <body>
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <ul class="nav navbar-nav navbar-right">
 
-    </ul>
+                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+            </ul>
+
+            <button type="submit" class="btn btn-info btn-sm">Zaloguj </button>
+        </form>
+    </body>
 }
