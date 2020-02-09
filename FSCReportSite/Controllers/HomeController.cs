@@ -18,24 +18,52 @@ namespace FSCReportSite.Controllers
         [Authorize]
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your application description page."; // FUNCTION TO DELETE
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
         public ViewResult CustomerOrdersReport()
+        {
+            return View();
+        }
+
+        public ViewResult CertificateParametersForm()
+        {
+            return View();
+        }
+
+        public ViewResult CorrugatedBoardReportCW()
+        {
+            return View();
+        }
+
+        public ViewResult CorrugatedBoardReportFSC()
+        {
+            return View();
+        }
+
+        public ViewResult ManageAccounts()
+        {
+            return View();
+        }
+
+        public ViewResult MyAccount()
+        {
+            return View();
+        }
+
+        public ViewResult PerformanceFactorForm()
+        {
+            return View();
+        }
+
+        public ViewResult SolidBoardReportCW()
+        {
+            return View();
+        }
+
+        public ViewResult SolidBoardReportFSC()
         {
             return View();
         }

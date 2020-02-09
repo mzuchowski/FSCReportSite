@@ -14,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\CorrugatedBoardReportCWView.cshtml">
+    <Content Update="Views\Home\CorrugatedBoardReportCW.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Home\CorrugatedBoardReportFSCView.cshtml">
+    <Content Update="Views\Home\CorrugatedBoardReportFSC.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

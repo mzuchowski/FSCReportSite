@@ -50,8 +50,8 @@
                                 <li>
                                     <a><i class="fa fa-desktop"></i> Konto punktowe FSC <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="index.cshtml">Tektura Lita</a></li>
-                                        <li><a href="index2.html">Tektura Falista</a></li>
+                                        <li><a asp-controller="Home" asp-action="SolidBoardReportFSC">Tektura Lita</a></li>
+                                        <li><a asp-controller="Home" asp-action="CorrugatedBoardReportFSC">Tektura Falista</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -66,10 +66,10 @@
                             <h3>FSC CONTROL WOOD</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i> Konto punktowe CW<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-home"></i> Konto punktowe CW <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="index.cshtml">Tektura Lita</a></li>
-                                        <li><a href="index2.html">Tektura Falista</a></li>
+                                        <li><a asp-controller="Home" asp-action="SolidBoardReportCW">Tektura Lita</a></li>
+                                        <li><a asp-controller="Home" asp-action="CorrugatedBoardReportCW">Tektura Falista</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -80,8 +80,8 @@
                                 <li>
                                     <a><i class="fa fa-home"></i>Parametry<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="index.cshtml">Współczynnik wydajności</a></li>
-                                        <li><a href="index2.cshtml">Parametry certyfikatów</a></li>
+                                        <li><a asp-controller="Home" asp-action="PerformanceFactorForm">Współczynnik wydajności</a></li>
+                                        <li><a asp-controller="Home" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -92,8 +92,8 @@
                                 <li>
                                     <a><i class="fa fa-home"></i>Konta<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="index.cshtml">Moje konto</a></li>
-                                        <li><a href="index2.cshtml">Zarządzaj kontami</a></li>
+                                        <li><a asp-controller="Home" asp-action="MyAccount">Moje konto</a></li>
+                                        <li><a asp-controller="Home" asp-action="ManageAccounts">Zarządzaj kontami</a></li>
                                     </ul>
                                 </li>
                             </ul>
