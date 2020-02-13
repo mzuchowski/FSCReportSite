@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace FSCReportSite.Models
+{
+    public partial class TotalPurchasesTf
+    {
+        public int Id { get; set; }
+        public int? DateYear { get; set; }
+        public int? DateMonth { get; set; }
+        public int? ProductWeight { get; set; }
+        public int? PurchasePointsFsc { get; set; }
+        public int? PurchasePointsCw { get; set; }
+        public float? PerformParam { get; set; }
+        public float? CertificateParam { get; set; }
+        public string CertificateName { get; set; }
+    }
+}
