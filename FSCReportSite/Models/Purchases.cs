@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FSCReportSite.Models
 {
     public partial class Purchases
     {
+        [Key]
         public int Id { get; set; }
         public string OperationType { get; set; }
         public string Fsc { get; set; }

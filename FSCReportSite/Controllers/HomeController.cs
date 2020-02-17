@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FSCReportSite.Data;
 using Microsoft.AspNetCore.Mvc;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 
 namespace FSCReportSite.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DbContextOptions<ApplicationDbContext> _options;
+
+        public HomeController(DbContextOptions<ApplicationDbContext> options)
+        {
+            _options = options;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -25,7 +35,21 @@ namespace FSCReportSite.Controllers
 
         public ViewResult CustomerOrdersReport()
         {
-            return View();
+            using (var abc = new ApplicationDbContext(_options))
+            {
+
+                if (abc != null)
+                {
+                    var xyz = abc.Purchases.First();
+                    ViewData["Message"] = "Your contact page." + xyz.Contractor;
+                    return View(xyz);
+                }
+                else
+                {
+                    return View();
+                }
+            }
+
         }
 
         public ViewResult CertificateParametersForm()
@@ -74,6 +98,37 @@ namespace FSCReportSite.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public bool DataUpdate()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+
+                if (context != null)
+                {
+                    var purchase = context.Purchases.FromSql("SELECT * FROM PURCHASES WHERE LEFT(ProductIndex,2)='PF'").First();
+                    purchase.Fsc = "test2020";
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public void test1()
+        {
+            if (DataUpdate())
+            {
+                @ViewData["Message"] = "Zaktualizowano";
+            }
+            else
+            {
+                @ViewData["Message"] = "Niepowodzenie";
+            }
         }
     }
 }
