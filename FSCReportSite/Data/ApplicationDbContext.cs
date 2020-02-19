@@ -28,6 +28,9 @@ namespace FSCReportSite.Data
         public virtual DbSet<TotalPurchasesTp> TotalPurchasesTp { get; set; }
         public virtual DbSet<TotalSalesTf> TotalSalesTf { get; set; }
         public virtual DbSet<TotalSalesTp> TotalSalesTp { get; set; }
+        public virtual DbSet<CertificateParameters> CertificateParameters { get; set; }
+        public virtual DbSet<PerformanceParameters> PerformanceParameters { get; set; }
+        public virtual DbSet<Sales> Sales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FSCReportSite.Data;
 using Microsoft.AspNetCore.Mvc;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FSCReportSite.Controllers
 {
@@ -40,16 +41,15 @@ namespace FSCReportSite.Controllers
 
                 if (abc != null)
                 {
-                    var xyz = abc.Purchases.First();
-                    ViewData["Message"] = "Your contact page." + xyz.Contractor;
+                    var xyz = abc.Purchases.Where(s => s.Id == 1);
+                     ViewData["Message"] = "Your contact page." + xyz;
                     return View(xyz);
                 }
-                else
-                {
-                    return View();
-                }
-            }
 
+                //ViewData["Message"] = "Brak wartości";
+
+                return View();
+            }
         }
 
         public ViewResult CertificateParametersForm()
@@ -94,21 +94,100 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public bool MaterialAndProductUpd(string partProdIndex)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            using (var context = new ApplicationDbContext(_options))
+            {
+                switch (partProdIndex)
+                {
+                    case "TP":
+                        if (context != null)
+                        {
+                            try
+                            {
+                                var purchaseTp = context.Purchases
+                                    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='TP'").ToList();
+                                purchaseTp.ForEach(a => a.ProductType = "4.1 Testliner");
+                                purchaseTp.ForEach(a => a.ProductGroup = "P.3.2 Tektura Powlekana");
+
+                                var salesTp = context.Sales
+                                    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2)='TP'").ToList();
+                                salesTp.ForEach(b => b.ProductType = "TEKTURA_PLASKA");
+                                salesTp.ForEach(b => b.ProductGroup= "P.3.2 Tektura Powlekana");
+
+                                context.SaveChanges();
+
+                                return true;
+                            }
+                            catch (Exception ex)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                        break;
+
+                    case "TF":
+                        if (context != null)
+                        {
+                            try
+                            {
+                                var purchasePf = context.Purchases
+                                    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF'").ToList();
+                                purchasePf.ForEach(a => a.ProductGroup = "P.4 Papier Tektura Falista");
+
+                                var purchasePfAndFlbFhp = context.Purchases
+                                    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF' AND SUBSTRING(ProductIndex,4,3)='FHP' OR LEFT(ProductIndex, 2) = 'PF' AND SUBSTRING(ProductIndex, 4, 3)='FHP'").ToList();
+                                purchasePfAndFlbFhp.ForEach(b => b.ProductType = "4.2 Fluting");
+
+                                var purchasePfNotFlbFhp = context.Purchases
+                                    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF' AND SUBSTRING(ProductIndex,4,3)<>'FHP'AND SUBSTRING(ProductIndex,4,3) <> 'FHP'").ToList();
+                                purchasePfNotFlbFhp.ForEach(c => c.ProductType = "4.1 Testliner");
+
+                                var salesPf = context.Sales
+                                    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2)='PF'").ToList();
+                                salesPf.ForEach(d => d.ProductType = "PAPIERY_DO_PRODUKCJI_FALI");
+                                salesPf.ForEach(d => d.ProductGroup = "P.4 Papier Tektura Falista");
+
+                                var salesTfOr35 = context.Sales
+                                    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2) ='TF' OR LEFT(ProductIndex, 1) = '3' OR LEFT(ProductIndex, 1) = '5'").ToList();
+                                salesTfOr35.ForEach(e => e.ProductType = "TEKTURA_FALISTA");
+                                salesTfOr35.ForEach(e => e.ProductGroup = "P.4 Papier Tektura Falista");
+
+                                context.SaveChanges();
+
+                                return true;
+                            }
+                            catch (Exception ex)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                        break;
+
+                    default:
+                        return false;
+                }
+            }
+
         }
 
-        public bool DataUpdate()
+        public bool DataUpdate() //PRZENIEŚĆ DO INNEGO CONTROLERA --TESTTOWA FUNCKCJA
         {
             using (var context = new ApplicationDbContext(_options))
             {
 
                 if (context != null)
                 {
-                    var purchase = context.Purchases.FromSql("SELECT * FROM PURCHASES WHERE LEFT(ProductIndex,2)='PF'").First();
-                    purchase.Fsc = "test2020";
+                    var purchase = context.Purchases.FromSql("SELECT * FROM PURCHASES WHERE LEFT(ProductIndex,2)='PF'").ToList();
+                    purchase.ForEach( a => a.Fsc = "test2020");
                     context.SaveChanges();
                     return true;
                 }
@@ -119,16 +198,25 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public void test1()
+        public ViewResult test1()
         {
-            if (DataUpdate())
+            if (DataUpdate() ==true)
             {
                 @ViewData["Message"] = "Zaktualizowano";
+                return View("MyAccount");
             }
             else
             {
                 @ViewData["Message"] = "Niepowodzenie";
+                return View("MyAccount");
             }
+        }
+    
+
+[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
