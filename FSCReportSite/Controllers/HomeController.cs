@@ -15,6 +15,8 @@ namespace FSCReportSite.Controllers
 {
     public class HomeController : Controller
     {
+        public string prodType="";
+
         private readonly DbContextOptions<ApplicationDbContext> _options;
 
         public HomeController(DbContextOptions<ApplicationDbContext> options)
@@ -94,11 +96,46 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        public bool MaterialAndProductUpd(string partProdIndex)
+        public bool ClearReports()
         {
             using (var context = new ApplicationDbContext(_options))
             {
-                switch (partProdIndex)
+                if (context != null)
+                {
+                    try
+                    {
+                        var fscTpReport = context.ReportFscTp.FromSql("TRUNCATE TABLE ReportFSC_TP");
+                        var fscTfReport = context.ReportFscTf.FromSql("TRUNCATE TABLE ReportFSC_TF");
+                        var totalPurchasesTp = context.TotalPurchasesTp.FromSql("TRUNCATE TABLE TotalPurchases_TP");
+                        var totalPurchasesTf = context.TotalPurchasesTf.FromSql("TRUNCATE TABLE TotalPurchases_TF");
+                        var totalSalesTp = context.TotalSalesTp.FromSql("TRUNCATE TABLE TotalSales_TP");
+                        var totalSalesTf = context.TotalSalesTf.FromSql("TRUNCATE TABLE TotalSales_TF");
+                        var sales = context.Sales.FromSql("TRUNCATE TABLE Sales");
+                        var purchases = context.Purchases.FromSql("TRUNCATE TABLE Purchases");
+                        context.SaveChanges();
+
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+        }
+
+        public bool MaterialAndProductUpdate(string partProdIndex)
+        {
+            this.prodType = partProdIndex;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                switch (prodType)
                 {
                     case "TP":
                         if (context != null)
@@ -119,7 +156,7 @@ namespace FSCReportSite.Controllers
 
                                 return true;
                             }
-                            catch (Exception ex)
+                            catch
                             {
                                 return false;
                             }
@@ -128,7 +165,6 @@ namespace FSCReportSite.Controllers
                         {
                             return false;
                         }
-                        break;
 
                     case "TF":
                         if (context != null)
@@ -161,7 +197,7 @@ namespace FSCReportSite.Controllers
 
                                 return true;
                             }
-                            catch (Exception ex)
+                            catch
                             {
                                 return false;
                             }
@@ -170,7 +206,6 @@ namespace FSCReportSite.Controllers
                         {
                             return false;
                         }
-                        break;
 
                     default:
                         return false;
@@ -200,14 +235,14 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (DataUpdate() ==true)
+            if (MaterialAndProductUpdate("TP") ==true)
             {
-                @ViewData["Message"] = "Zaktualizowano";
+                @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
             }
             else
             {
-                @ViewData["Message"] = "Niepowodzenie";
+                @ViewData["Message"] = "Niepowodzenie - aktualizacja materiałów";
                 return View("MyAccount");
             }
         }
