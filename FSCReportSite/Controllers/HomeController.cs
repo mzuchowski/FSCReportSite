@@ -96,7 +96,7 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        public bool ClearReports()
+        public bool ClearTables()
         {
             using (var context = new ApplicationDbContext(_options))
             {
@@ -104,14 +104,14 @@ namespace FSCReportSite.Controllers
                 {
                     try
                     {
-                        var fscTpReport = context.ReportFscTp.FromSql("TRUNCATE TABLE ReportFSC_TP");
-                        var fscTfReport = context.ReportFscTf.FromSql("TRUNCATE TABLE ReportFSC_TF");
-                        var totalPurchasesTp = context.TotalPurchasesTp.FromSql("TRUNCATE TABLE TotalPurchases_TP");
-                        var totalPurchasesTf = context.TotalPurchasesTf.FromSql("TRUNCATE TABLE TotalPurchases_TF");
-                        var totalSalesTp = context.TotalSalesTp.FromSql("TRUNCATE TABLE TotalSales_TP");
-                        var totalSalesTf = context.TotalSalesTf.FromSql("TRUNCATE TABLE TotalSales_TF");
-                        var sales = context.Sales.FromSql("TRUNCATE TABLE Sales");
-                        var purchases = context.Purchases.FromSql("TRUNCATE TABLE Purchases");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFSC_TP");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFSC_TF");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchases_TP");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchases_TF");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSales_TP");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSales_TF");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
                         context.SaveChanges();
 
                         return true;
@@ -235,7 +235,7 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (MaterialAndProductUpdate("TP") ==true)
+            if (ClearTables()==true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
