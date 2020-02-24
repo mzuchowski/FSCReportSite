@@ -14,7 +14,8 @@ namespace FSCReportSite.Models
         public int? PurchasePointsFsc { get; set; }
         public int? PurchasePointsCw { get; set; }
         public float? PerformParam { get; set; }
-        public float? CertificateParam { get; set; }
+        public float? CertificateParamFsc { get; set; }
+        public float? CertificateParamCw { get; set; }
         public string CertificateName { get; set; }
     }
 }

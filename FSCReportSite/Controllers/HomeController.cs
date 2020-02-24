@@ -15,7 +15,9 @@ namespace FSCReportSite.Controllers
 {
     public class HomeController : Controller
     {
-        public string prodType="";
+        public string prodType = "";
+        public string certType = "";
+        public string ErrorMsg = "";
 
         private readonly DbContextOptions<ApplicationDbContext> _options;
 
@@ -96,6 +98,130 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
+        public bool ImportData()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                {
+                    try
+                    {
+                        var salesDoc = context.Database.ExecuteSqlCommand("ImportDocData");
+
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        }
+
+        public bool AddParameters(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                {
+                    try
+                    {
+                        if (prodType == "TP")
+                        {
+                            var totalPurchasesTp = context.TotalPurchasesTp.ToList();
+
+                            foreach (var purchasesTp in totalPurchasesTp)
+                            {
+                                var certificat = context.CertificateParameters
+                                    .Where(a => a.CertificateName == purchasesTp.CertificateName).FirstOrDefault();
+
+                                // var certificat = context.CertificateParameters.FromSql(
+                                //     "SELECT * FROM CertificateParameters WHERE CertificateName ={0}",purchasesTp.CertificateName).FirstOrDefault();
+                                var purchasesWithCert = context.TotalPurchasesTp
+                                    .Where(a => a.CertificateName == purchasesTp.CertificateName).ToList();
+
+                                if (certType == "FSC")
+                                {
+                                    purchasesWithCert.ForEach(b => b.CertificateParamFsc = certificat.ParameterFsc);
+                                    context.SaveChanges();
+                                }
+                                else if (certType == "CW")
+                                {
+                                    purchasesWithCert.ForEach(b => b.CertificateParamCw = certificat.ParameterCw);
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                    return false;
+                                }
+
+                                
+                            }
+                            return true;
+                        }
+                        else if (prodType == "TF")
+                        {
+                            var totalPurchasesTf = context.TotalPurchasesTf.ToList();
+
+                            foreach (var purchasesTf in totalPurchasesTf)
+                            {
+                                var certificat = context.CertificateParameters
+                                    .Where(a => a.CertificateName == purchasesTf.CertificateName).FirstOrDefault();
+
+                                // var certificat = context.CertificateParameters.FromSql(
+                                //     "SELECT * FROM CertificateParameters WHERE CertificateName ={0}",purchasesTp.CertificateName).FirstOrDefault();
+                                var purchasesWithCert = context.TotalPurchasesTf
+                                    .Where(a => a.CertificateName == purchasesTf.CertificateName).ToList();
+
+                                if (certType == "FSC")
+                                {
+                                    purchasesWithCert.ForEach(b => b.CertificateParamFsc = certificat.ParameterFsc);
+                                    context.SaveChanges();
+                                }
+                                else if (certType == "CW")
+                                {
+                                    purchasesWithCert.ForEach(b => b.CertificateParamCw = certificat.ParameterCw);
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                    return false;
+                                }
+
+                                
+                            }
+                            return true;
+                        }
+                        else
+                        {
+                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            return false;
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        ErrorMsg = ex.Message;
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        }
+
         public bool ClearTables()
         {
             using (var context = new ApplicationDbContext(_options))
@@ -129,9 +255,9 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public bool MaterialAndProductUpdate(string partProdIndex)
+        public bool MaterialAndProductUpdate(string partProdIndexParam)
         {
-            this.prodType = partProdIndex;
+            this.prodType = partProdIndexParam;
 
             using (var context = new ApplicationDbContext(_options))
             {
@@ -235,14 +361,14 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (ClearTables()==true)
+            if (AddParameters()== true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
             }
             else
             {
-                @ViewData["Message"] = "Niepowodzenie - aktualizacja materiałów";
+                @ViewData["Message"] = "Niepowodzenie - aktualizacja materiałów "+ErrorMsg;
                 return View("MyAccount");
             }
         }

@@ -13,6 +13,7 @@ namespace FSCReportSite.Models
         public int? PurchasePoints { get; set; }
         public int? SalesPoints { get; set; }
         public int? DifferencePoints { get; set; }
+        public int? OldDifferencePoints { get; set; }
         public int? AmountOfPoints { get; set; }
     }
 }
