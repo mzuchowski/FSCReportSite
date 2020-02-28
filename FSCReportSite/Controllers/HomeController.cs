@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FSCReportSite.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using FSCReportSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace FSCReportSite.Controllers
 {
@@ -123,6 +125,75 @@ namespace FSCReportSite.Controllers
             }
         }
 
+        public bool GroupPurchasesAndSales(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                {
+                    try
+                    {
+                        if (prodType == "TP")
+                        {
+                            var purchasesGroupBy = context.Purchases.Where(p =>
+                                p.ProductGroup == "P.3.2 Tektura Powlekana").GroupBy(p =>
+                                new {p.YearOfDocument, p.MonthOfDocument, p.Fsc}).Select(p =>
+                                new { p.Key.YearOfDocument, p.Key.MonthOfDocument, sumOfQuantity = p.Sum(o =>o.Quantity), p.Key.Fsc }).ToList();
+                            
+                           
+                                
+                            foreach (var purchases in purchasesGroupBy)
+                            {
+                                TotalPurchasesTp totalPurchasesTp = new TotalPurchasesTp();
+                                totalPurchasesTp.DateYear = purchases.YearOfDocument;
+                                totalPurchasesTp.DateMonth = purchases.MonthOfDocument;
+                                totalPurchasesTp.ProductWeight = purchases.sumOfQuantity;
+                                totalPurchasesTp.CertificateName = purchases.Fsc;
+                                context.SaveChanges();
+                            }
+
+                            if (certType == "FSC")
+                            {
+                                
+                            }
+                            else if (certType == "CW")
+                            {
+                                
+                            }
+                            else
+                            {
+                                ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                return false;
+                            }
+                            return true;
+                        }
+                        else if (prodType == "TF")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsg = ex.Message;
+                        return false;
+                    }
+                }
+                else
+                {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    return false;
+                }
+            }
+        }
+
         public bool CalculatePoints(string prodTypeParam, string certTypeParam)
         {
             this.prodType = prodTypeParam;
@@ -190,6 +261,7 @@ namespace FSCReportSite.Controllers
                 }
                 else
                 {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
 
@@ -303,6 +375,7 @@ namespace FSCReportSite.Controllers
                 }
                 else
                 {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
 
@@ -336,6 +409,7 @@ namespace FSCReportSite.Controllers
                 }
                 else
                 {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
                 
@@ -373,13 +447,15 @@ namespace FSCReportSite.Controllers
 
                                 return true;
                             }
-                            catch
+                            catch(Exception ex)
                             {
+                                ErrorMsg = ex.Message;
                                 return false;
                             }
                         }
                         else
                         {
+                            ErrorMsg = "Klasa DbContext ma wartość null";
                             return false;
                         }
 
@@ -404,16 +480,19 @@ namespace FSCReportSite.Controllers
                                         p.ProductIndex.Substring(4, 3) == "FLB")
                                     .ToList();
                                 purchasePfAndFlbFhp.ForEach(b => b.ProductType = "4.2 Fluting");
+                                purchasePfAndFlbFhp.ForEach(b => b.ProductGroup = "P.4 Papier Tektura Falista");
 
                                 //var purchasePfNotFlbFhp = context.Purchases
                                 //  .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF' AND SUBSTRING(ProductIndex,4,3)<>'FHP'AND SUBSTRING(ProductIndex,4,3) <> 'FHP'").ToList();
 
                                 var purchasePfNotFlbFhp = context.Purchases.Where(p =>
                                         p.ProductIndex.Substring(0, 2) == "PF" &&
-                                        p.ProductIndex.Substring(4, 3) != "FHP" &&
+                                        p.ProductIndex.Substring(4, 3) != "FHP" ||
+                                        p.ProductIndex.Substring(0, 2) == "PF" &&
                                         p.ProductIndex.Substring(4, 3) != "FLB")
                                     .ToList();
                                 purchasePfNotFlbFhp.ForEach(c => c.ProductType = "4.1 Testliner");
+                                purchasePfNotFlbFhp.ForEach(c => c.ProductGroup = "P.4 Papier Tektura Falista");
 
                                 //var salesPf = context.Sales
                                 //    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2)='PF'").ToList();
@@ -436,17 +515,20 @@ namespace FSCReportSite.Controllers
 
                                 return true;
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                ErrorMsg = ex.Message;
                                 return false;
                             }
                         }
                         else
                         {
+                            ErrorMsg = "Klasa DbContext ma wartość null";
                             return false;
                         }
 
                     default:
+                        ErrorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
                         return false;
                 }
             }
@@ -467,6 +549,7 @@ namespace FSCReportSite.Controllers
                 }
                 else
                 {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
             }
@@ -474,7 +557,7 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (CalculatePoints("TP","FSC")== true)
+            if (GroupPurchasesAndSales("TP","FSC")== true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
