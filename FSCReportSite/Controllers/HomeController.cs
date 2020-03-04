@@ -125,10 +125,9 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public bool GroupPurchasesAndSales(string prodTypeParam, string certTypeParam)
+        public bool GroupPurchasesAndSales(string prodTypeParam)
         {
             this.prodType = prodTypeParam;
-            this.certType = certTypeParam;
 
             using (var context = new ApplicationDbContext(_options))
             {
@@ -141,37 +140,94 @@ namespace FSCReportSite.Controllers
                             var purchasesGroupBy = context.Purchases.Where(p =>
                                 p.ProductGroup == "P.3.2 Tektura Powlekana").GroupBy(p =>
                                 new {p.YearOfDocument, p.MonthOfDocument, p.Fsc}).Select(p =>
-                                new { p.Key.YearOfDocument, p.Key.MonthOfDocument, sumOfQuantity = p.Sum(o =>o.Quantity), p.Key.Fsc }).ToList();
-                            
-                           
-                                
+                                new
+                                {
+                                    p.Key.YearOfDocument,
+                                    p.Key.MonthOfDocument,
+                                    sumOfQuantity = p.Sum(o => o.Quantity),
+                                    p.Key.Fsc
+                                }).ToList();
+
                             foreach (var purchases in purchasesGroupBy)
                             {
-                                TotalPurchasesTp totalPurchasesTp = new TotalPurchasesTp();
-                                totalPurchasesTp.DateYear = purchases.YearOfDocument;
-                                totalPurchasesTp.DateMonth = purchases.MonthOfDocument;
-                                totalPurchasesTp.ProductWeight = purchases.sumOfQuantity;
-                                totalPurchasesTp.CertificateName = purchases.Fsc;
+                                context.TotalPurchasesTp.Add(new TotalPurchasesTp
+                                {
+                                    DateYear = purchases.YearOfDocument,
+                                    DateMonth = purchases.MonthOfDocument,
+                                    ProductWeight = purchases.sumOfQuantity,
+                                    CertificateName = purchases.Fsc
+                                });
                                 context.SaveChanges();
                             }
 
-                            if (certType == "FSC")
+                            var salesGroupBy = context.Sales.Where(p =>
+                                p.ProductGroup == "P.3.2 Tektura Powlekana").GroupBy(p =>
+                                new { p.YearOfSaleDoc, p.MonthOfSaleDoc, p.Fsc }).Select(p =>
+                                new
+                                {
+                                    p.Key.YearOfSaleDoc,
+                                    p.Key.MonthOfSaleDoc,
+                                    sumOfQuantity = p.Sum(o => o.Quantity),
+                                    p.Key.Fsc
+                                }).ToList();
+
+                            foreach (var sales in salesGroupBy)
                             {
-                                
+                                context.TotalSalesTp.Add(new TotalSalesTp
+                                {
+                                    DateYear = sales.YearOfSaleDoc,
+                                    DateMonth = sales.MonthOfSaleDoc,
+                                    SalesPoints = sales.sumOfQuantity,
+                                    CertificatName = sales.Fsc
+                                });
+                                context.SaveChanges();
                             }
-                            else if (certType == "CW")
-                            {
-                                
-                            }
-                            else
-                            {
-                                ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
-                                return false;
-                            }
+
                             return true;
                         }
+
                         else if (prodType == "TF")
                         {
+                            var purchasesGroupBy = context.Purchases.Where(p =>
+                                p.ProductGroup == "P.4 Papier Tektura Falista").GroupBy(p =>
+                                new { p.YearOfDocument, p.MonthOfDocument, p.Fsc }).Select(p =>
+                                new { p.Key.YearOfDocument, p.Key.MonthOfDocument, sumOfQuantity = p.Sum(o => o.Quantity), p.Key.Fsc }).ToList();
+
+                            foreach (var purchases in purchasesGroupBy)
+                            {
+                                context.TotalPurchasesTf.Add(new TotalPurchasesTf
+                                {
+                                    DateYear = purchases.YearOfDocument,
+                                    DateMonth = purchases.MonthOfDocument,
+                                    ProductWeight = purchases.sumOfQuantity,
+                                    CertificateName = purchases.Fsc
+                                });
+                                context.SaveChanges();
+                            }
+
+                            var salesGroupBy = context.Sales.Where(p =>
+                                p.ProductGroup == "P.4 Papier Tektura Falista").GroupBy(p =>
+                                new { p.YearOfSaleDoc, p.MonthOfSaleDoc, p.Fsc }).Select(p =>
+                                new
+                                {
+                                    p.Key.YearOfSaleDoc,
+                                    p.Key.MonthOfSaleDoc,
+                                    sumOfQuantity = p.Sum(o => o.Quantity),
+                                    p.Key.Fsc
+                                }).ToList();
+
+                            foreach (var sales in salesGroupBy)
+                            {
+                                context.TotalSalesTf.Add(new TotalSalesTf
+                                {
+                                    DateYear = sales.YearOfSaleDoc,
+                                    DateMonth = sales.MonthOfSaleDoc,
+                                    SalesPoints = sales.sumOfQuantity,
+                                    CertificatName = sales.Fsc
+                                });
+                                context.SaveChanges();
+                            }
+
                             return true;
                         }
                         else
@@ -557,7 +613,7 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (GroupPurchasesAndSales("TP","FSC")== true)
+            if (GroupPurchasesAndSales("TP")== true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
