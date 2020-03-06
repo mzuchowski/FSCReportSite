@@ -22,11 +22,18 @@ namespace FSCReportSite.Controllers
         public string ErrorMsg = "";
 
         private readonly DbContextOptions<ApplicationDbContext> _options;
+        private readonly DbContextOptions<SourceDbContext> _sourceOptions;
 
-        public HomeController(DbContextOptions<ApplicationDbContext> options)
+        public HomeController(DbContextOptions<ApplicationDbContext> options, DbContextOptions<SourceDbContext> sourceOptions)
         {
             _options = options;
+            _sourceOptions = sourceOptions;
         }
+
+      //  public HomeController(DbContextOptions<SourceDbContext> sourceOptions)
+       // {
+       //     _sourceOptions = sourceOptions;
+       // }
 
         public IActionResult Index()
         {
@@ -102,18 +109,81 @@ namespace FSCReportSite.Controllers
 
         public bool ImportData()
         {
-            using (var context = new ApplicationDbContext(_options))
+            using (var sourceContext = new SourceDbContext(_sourceOptions))
             {
-                if (context != null)
+                if (sourceContext != null)
                 {
                     try
                     {
-                        var salesDoc = context.Database.ExecuteSqlCommand("ImportDocData");
+                        var salesDoc = sourceContext.SalesDoc.Where(s => s.Fsc != null && s.Fsc != "");
+                        var purchasesDoc = sourceContext.PurchasesDoc.Where(s => s.Fsc != null && s.Fsc != "");
 
-                        return true;
+                        using (var context = new ApplicationDbContext(_options))
+                        {
+                            if (context != null)
+                            {
+                                try
+                                {
+                                    foreach (var sale in salesDoc)
+                                    {
+                                        context.Sales.Add(new Sales
+                                        {
+                                            OperationType = sale.OperationType,
+                                            Fsc = sale.Fsc,                 
+                                            ProductIndex = sale.ProductIndex,        
+                                            Batch = sale.Batch,               
+                                            Quantity = sale.Quantity,            
+                                            Unit = sale.Unit,                
+                                            Price = sale.Price,               
+                                            NumberOfSaleDoc = sale.NumberOfSaleDoc,     
+                                            NumberOfInvoice = sale.NumberOfInvoice,
+                                            DateOfSaleDoc = sale.DateOfSaleDoc,
+                                            Contractor = sale.Contractor,          
+                                            WarehouseName = sale.WarehouseName,       
+                                            YearOfSaleDoc = sale.YearOfSaleDoc,       
+                                            MonthOfSaleDoc = sale.MonthOfSaleDoc    
+                                        });
+                                        context.SaveChanges();
+                                    }
+
+                                    foreach (var purchase in purchasesDoc)
+                                    {
+                                        context.Purchases.Add(new Purchases
+                                        {
+                                            OperationType = purchase.OperationType,
+                                            Fsc = purchase.Fsc,
+                                            ProductIndex = purchase.ProductIndex,
+                                            Batch = purchase.Batch,
+                                            Quantity = purchase.Quantity,
+                                            Unit = purchase.Unit,
+                                            Price = purchase.Price,
+                                            NumberOfPurchaseDoc = purchase.NumberOfPurchaseDoc,    
+                                            DateOfDocument = purchase.DateOfDocument,
+                                            Contractor = purchase.Contractor,
+                                            WarehouseName = purchase.WarehouseName,
+                                            YearOfDocument = purchase.YearOfDocument,
+                                            MonthOfDocument = purchase.MonthOfDocument
+                                        });
+                                        context.SaveChanges();
+                                    }
+
+                                    return true;
+                                }
+                                catch (Exception ex)
+                                {
+                                    ErrorMsg = ex.Message;
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        ErrorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -123,6 +193,7 @@ namespace FSCReportSite.Controllers
                 }
 
             }
+            
         }
 
         public bool GroupPurchasesAndSales(string prodTypeParam)
@@ -342,12 +413,12 @@ namespace FSCReportSite.Controllers
                             foreach (var purchasesTp in totalPurchasesTp)
                             {
                                 var certificat = context.CertificateParameters
-                                    .Where(a => a.CertificateName == purchasesTp.CertificateName).FirstOrDefault();
+                                    .Where(a => a.CertificateName == purchasesTp.CertificateName).SingleOrDefault();
 
                                 var performanceParam = context.PerformanceParameters.Where(p =>
                                         p.YearOfDocument == purchasesTp.DateYear &&
                                         p.MonthOfDocument == purchasesTp.DateMonth).Select(p => p.Tlperformance)
-                                    .FirstOrDefault();
+                                    .SingleOrDefault();
 
                                 // var certificat = context.CertificateParameters.FromSql(
                                 //     "SELECT * FROM CertificateParameters WHERE CertificateName ={0}",purchasesTp.CertificateName).FirstOrDefault();
@@ -382,12 +453,12 @@ namespace FSCReportSite.Controllers
                             foreach (var purchasesTf in totalPurchasesTf)
                             {
                                 var certificat = context.CertificateParameters
-                                    .Where(a => a.CertificateName == purchasesTf.CertificateName).FirstOrDefault();
+                                    .Where(a => a.CertificateName == purchasesTf.CertificateName).SingleOrDefault();
 
                                 var performanceParam = context.PerformanceParameters.Where(p =>
                                         p.YearOfDocument == purchasesTf.DateYear &&
                                         p.MonthOfDocument == purchasesTf.DateMonth).Select(p => p.Tfperformance)
-                                    .FirstOrDefault();
+                                    .SingleOrDefault();
 
                                 // var certificat = context.CertificateParameters.FromSql(
                                 //     "SELECT * FROM CertificateParameters WHERE CertificateName ={0}",purchasesTp.CertificateName).FirstOrDefault();
@@ -458,8 +529,9 @@ namespace FSCReportSite.Controllers
 
                         return true;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        ErrorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -468,7 +540,174 @@ namespace FSCReportSite.Controllers
                     ErrorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
-                
+            }
+        }
+
+        public void CreateReport(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+            try
+                    {
+                        if (prodType == "TP")
+                        {
+
+                        }
+                        else if (prodType == "TF")
+                        {
+                        
+                        }
+                        else
+                        {
+                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsg = ex.Message;
+                    }
+        }
+
+        public bool AddDifferenceFromPast(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                    try
+                    {
+                        if (prodType == "TP" && certType =="FSC")
+                        {
+                            var reportData = context.ReportFscTp.ToList();
+
+                            foreach (var report in reportData)
+                            {
+                                var different = reportData.Where(w =>
+                                    w.DateYear == report.DateYear - 1 &&
+                                    w.DateMonth == report.DateMonth).Select(r => r.DifferencePoints).FirstOrDefault();
+
+                                var recordToUpd = reportData.Where(w =>
+                                    w.DateYear == report.DateYear &&
+                                    w.DateMonth == report.DateMonth).ToList();
+
+                                recordToUpd.ForEach(s => s.OldDifferencePoints =different);
+                                context.SaveChanges();
+                            }
+                            return true;
+                        }
+                        else if (prodType == "TP" && certType == "CW")
+                        {
+                            var reportData = context.ReportCwTp.ToList();
+
+                            foreach (var report in reportData)
+                            {
+                                var different = reportData.Where(w =>
+                                    w.DateYear == report.DateYear - 1 &&
+                                    w.DateMonth == report.DateMonth).Select(r => r.DifferencePoints).FirstOrDefault();
+
+                                var recordToUpd = reportData.Where(w =>
+                                    w.DateYear == report.DateYear &&
+                                    w.DateMonth == report.DateMonth).ToList();
+
+                                recordToUpd.ForEach(s => s.OldDifferencePoints = different);
+                                context.SaveChanges();
+                            }
+                            return true;
+                        }
+                        else if (prodType == "TF" && certType == "FSC")
+                        {
+                            var reportData = context.ReportFscTf.ToList();
+
+                            foreach (var report in reportData)
+                            {
+                                var different = reportData.Where(w =>
+                                    w.DateYear == report.DateYear - 1 &&
+                                    w.DateMonth == report.DateMonth).Select(r => r.DifferencePoints).FirstOrDefault();
+
+                                var recordToUpd = reportData.Where(w =>
+                                    w.DateYear == report.DateYear &&
+                                    w.DateMonth == report.DateMonth).ToList();
+
+                                recordToUpd.ForEach(s => s.OldDifferencePoints = different);
+                                context.SaveChanges();
+                            }
+                            return true;
+                        }
+                        else if (prodType == "TF" && certType == "CW")
+                        {
+                            var reportData = context.ReportCwTf.ToList();
+
+                            foreach (var report in reportData)
+                            {
+                                var different = reportData.Where(w =>
+                                    w.DateYear == report.DateYear - 1 &&
+                                    w.DateMonth == report.DateMonth).Select(r => r.DifferencePoints).FirstOrDefault();
+
+                                var recordToUpd = reportData.Where(w =>
+                                    w.DateYear == report.DateYear &&
+                                    w.DateMonth == report.DateMonth).ToList();
+
+                                recordToUpd.ForEach(s => s.OldDifferencePoints = different);
+                                context.SaveChanges();
+                            }
+                            return true;
+                        }
+                        else
+                        {
+                            ErrorMsg = "Przesłany rodzaj produktu lub certyfikatu jest nieprawidłowy";
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsg = ex.Message;
+                        return false;
+                    }
+                else
+                {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    return false;
+                }
+
+            }
+        }
+
+        public bool UpdateFlutingProductWeight(string prodTypeParam)
+        { 
+            this.prodType = prodTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                    try
+                    {
+                        if (prodType == "TP")
+                        {
+                            return true;
+                        }
+                        else if (prodType == "TF")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsg = ex.Message;
+                        return false;
+                    }
+                else
+                {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    return false;
+                }
+
             }
         }
 
@@ -613,7 +852,7 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (GroupPurchasesAndSales("TP")== true)
+            if (AddDifferenceFromPast("TP","FSC")== true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");

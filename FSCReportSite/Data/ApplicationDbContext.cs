@@ -25,6 +25,8 @@ namespace FSCReportSite.Data
         public virtual DbSet<Purchases> Purchases { get; set; }
         public virtual DbSet<ReportFscTf> ReportFscTf { get; set; }
         public virtual DbSet<ReportFscTp> ReportFscTp { get; set; }
+        public virtual DbSet<ReportCwTf> ReportCwTf { get; set; }
+        public virtual DbSet<ReportCwTp> ReportCwTp { get; set; }
         public virtual DbSet<TotalPurchasesTf> TotalPurchasesTf { get; set; }
         public virtual DbSet<TotalPurchasesTp> TotalPurchasesTp { get; set; }
         public virtual DbSet<TotalSalesTf> TotalSalesTf { get; set; }

@@ -37,6 +37,9 @@ namespace FSCReportSite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SourceDbContext>(sourceOptions =>
+                sourceOptions.UseSqlServer(
+                    Configuration.GetConnectionString("SourceConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
