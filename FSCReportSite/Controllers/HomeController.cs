@@ -9,6 +9,7 @@ using FSCReportSite.Data;
 using Microsoft.AspNetCore.Mvc;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
@@ -592,6 +593,7 @@ namespace FSCReportSite.Controllers
                                     w.DateYear == report.DateYear &&
                                     w.DateMonth == report.DateMonth).ToList();
 
+
                                 recordToUpd.ForEach(s => s.OldDifferencePoints =different);
                                 context.SaveChanges();
                             }
@@ -607,7 +609,7 @@ namespace FSCReportSite.Controllers
                                     w.DateYear == report.DateYear - 1 &&
                                     w.DateMonth == report.DateMonth).Select(r => r.DifferencePoints).FirstOrDefault();
 
-                                var recordToUpd = reportData.Where(w =>
+                               var recordToUpd = reportData.Where(w =>
                                     w.DateYear == report.DateYear &&
                                     w.DateMonth == report.DateMonth).ToList();
 
@@ -674,34 +676,64 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public bool UpdateFlutingProductWeight(string prodTypeParam)
+        public bool UpdateFlutingProductWeight()  // TYLKO DLA RAPORTÓW TF
         { 
-            this.prodType = prodTypeParam;
 
             using (var context = new ApplicationDbContext(_options))
             {
                 if (context != null)
+                {
                     try
                     {
-                        if (prodType == "TP")
-                        {
+                            var salesTf2Products = context.Sales
+                                .Where(s => s.ProductIndex.Substring(0, 2) == "TF" && s.Unit == "m2").ToList();
+                            var salesTf3Products = context.Sales
+                                .Where(s => s.ProductIndex.Substring(0, 1) == "3" && s.Unit == "m2").ToList();
+                            var salesTf5Products = context.Sales
+                                .Where(s => s.ProductIndex.Substring(0, 1) == "5" && s.Unit == "m2").ToList();
+
+                            foreach (var salesTf2 in salesTf2Products)
+                            {
+                                decimal gsm1 = decimal.Parse(salesTf2.ProductIndex.Substring(9, 3));
+                                decimal gsm2 = decimal.Parse(salesTf2.ProductIndex.Substring(16, 3));
+                                int weight = Convert.ToInt16((gsm1 + gsm2) / 1000 * salesTf2.Quantity);
+
+                                var recordToUpd = salesTf2Products.Where(s => s.Id == salesTf2.Id).ToList();
+                                recordToUpd.ForEach(s => s.Quantity = weight);
+                                recordToUpd.ForEach(s => s.Unit ="kg");
+                                context.SaveChanges();
+                            }
+                            foreach (var salesTf3 in salesTf3Products)
+                            {
+                                decimal gsm = decimal.Parse(salesTf3.ProductIndex.Substring(2, 4));
+                                int weight = Convert.ToInt16(gsm / 1000 * salesTf3.Quantity);
+
+                                var recordToUpd = salesTf3Products.Where(s => s.Id == salesTf3.Id).ToList();
+                                recordToUpd.ForEach(s => s.Quantity = weight);
+                                recordToUpd.ForEach(s => s.Unit = "kg");
+                                context.SaveChanges();
+                            }
+                            foreach (var salesTf5 in salesTf5Products)
+                            {
+                                decimal gsm = decimal.Parse(salesTf5.ProductIndex.Substring(3, 4));
+                                int weight = Convert.ToInt16(gsm / 1000 * salesTf5.Quantity);
+
+                                var recordToUpd = salesTf5Products.Where(s => s.Id == salesTf5.Id).ToList();
+                                recordToUpd.ForEach(s => s.Quantity = weight);
+                                recordToUpd.ForEach(s => s.Unit = "kg");
+                                context.SaveChanges();
+                            }
+
                             return true;
-                        }
-                        else if (prodType == "TF")
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
-                            return false;
-                        }
                     }
                     catch (Exception ex)
                     {
                         ErrorMsg = ex.Message;
                         return false;
                     }
+
+                    return true;
+                }
                 else
                 {
                     ErrorMsg = "Klasa DbContext ma wartość null";
@@ -830,7 +862,7 @@ namespace FSCReportSite.Controllers
 
         }
 
-        public bool DataUpdate() //PRZENIEŚĆ DO INNEGO CONTROLERA --TESTTOWA FUNCKCJA do usuniecia
+        public bool DataUpdate() //PRZENIEŚĆ DO INNEGO CONTROLERA --TESTTOWA FUNCKCJA do usuniecia ...UpdateFlutingProductWeight()
         {
             using (var context = new ApplicationDbContext(_options))
             {
@@ -852,7 +884,7 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (AddDifferenceFromPast("TP","FSC")== true)
+            if (UpdateFlutingProductWeight() == true)
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
