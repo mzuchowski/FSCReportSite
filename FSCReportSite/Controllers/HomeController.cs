@@ -211,14 +211,14 @@ namespace FSCReportSite.Controllers
                         {
                             var purchasesGroupBy = context.Purchases.Where(p =>
                                 p.ProductGroup == "P.3.2 Tektura Powlekana").GroupBy(p =>
-                                new {p.YearOfDocument, p.MonthOfDocument, p.Fsc}).Select(p =>
-                                new
-                                {
-                                    p.Key.YearOfDocument,
-                                    p.Key.MonthOfDocument,
-                                    sumOfQuantity = p.Sum(o => o.Quantity),
-                                    p.Key.Fsc
-                                }).ToList();
+                                new { p.YearOfDocument, p.MonthOfDocument, p.Fsc }).Select(p =>
+                                  new
+                                  {
+                                      p.Key.YearOfDocument,
+                                      p.Key.MonthOfDocument,
+                                      sumOfQuantity = p.Sum(o => o.Quantity),
+                                      p.Key.Fsc
+                                  }).ToList();
 
                             foreach (var purchases in purchasesGroupBy)
                             {
@@ -322,7 +322,90 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public bool CalculatePoints(string prodTypeParam, string certTypeParam)
+        public bool CalculateReportPoints(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (context != null)
+                {
+                    if (prodType == "TP" && certType == "FSC")
+                    {
+                        var reportFsc = context.ReportFscTp.ToList();
+
+                        foreach (var report in reportFsc)
+                        {
+                            var recordToUpd = reportFsc.Where(s => s.Id == report.Id).ToList();
+                            var lastMonthPoints = reportFsc.Where(s => s.Id == report.Id-1).Select(s => s.AmountOfPoints).SingleOrDefault();
+
+                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                            context.SaveChanges();
+                        }
+                        return true;
+                    }
+                    else if (prodType == "TF" && certType == "FSC")
+                    {
+                        var reportFsc = context.ReportFscTf.ToList();
+
+                        foreach (var report in reportFsc)
+                        {
+                            var recordToUpd = reportFsc.Where(s => s.Id == report.Id).ToList();
+                            var lastMonthPoints = reportFsc.Where(s => s.Id == report.Id - 1).Select(s => s.AmountOfPoints).SingleOrDefault();
+
+                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                            context.SaveChanges();
+                        }
+
+                        return true;
+                    }
+                    else if (prodType == "TP" && certType == "CW")
+                    {
+                        var reportCw = context.ReportCwTp.ToList();
+
+                        foreach (var report in reportCw)
+                        {
+                            var recordToUpd = reportCw.Where(s => s.Id == report.Id).ToList();
+                            var lastMonthPoints = reportCw.Where(s => s.Id == report.Id - 1).Select(s => s.AmountOfPoints).SingleOrDefault();
+
+                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                            context.SaveChanges();
+                        }
+                        return true;
+                    }
+                    else if (prodType == "TF" && certType == "CW")
+                    {
+                        var reportCw = context.ReportCwTf.ToList();
+
+                        foreach (var report in reportCw)
+                        {
+                            var recordToUpd = reportCw.Where(s => s.Id == report.Id).ToList();
+                            var lastMonthPoints = reportCw.Where(s => s.Id == report.Id - 1)
+                                .Select(s => s.AmountOfPoints).SingleOrDefault();
+
+                            recordToUpd.ForEach(s =>
+                                s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints -
+                                                   s.OldDifferencePoints);
+                            context.SaveChanges();
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        ErrorMsg = "Produkt lub certyfikat są nieprawidłowe";
+                        return false;
+                    }
+                }
+                else
+                {
+                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    return false;
+                }
+            }
+        }
+
+        public bool CalculatePurchuasePoints(string prodTypeParam, string certTypeParam)
         {
             this.prodType = prodTypeParam;
             this.certType = certTypeParam;
