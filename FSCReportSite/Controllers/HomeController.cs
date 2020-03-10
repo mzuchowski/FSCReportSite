@@ -340,8 +340,16 @@ namespace FSCReportSite.Controllers
                             var recordToUpd = reportFsc.Where(s => s.Id == report.Id).ToList();
                             var lastMonthPoints = reportFsc.Where(s => s.Id == report.Id-1).Select(s => s.AmountOfPoints).SingleOrDefault();
 
-                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
-                            context.SaveChanges();
+                            if (report.OldDifferencePoints !=null && report.OldDifferencePoints > 0)
+                            {
+                                recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints);
+                                context.SaveChanges();
+                            }
                         }
                         return true;
                     }
@@ -509,8 +517,19 @@ namespace FSCReportSite.Controllers
                                 var purchasesWithCert = context.TotalPurchasesTp
                                     .Where(a => a.CertificateName == purchasesTp.CertificateName).ToList();
 
-                                purchasesWithCert.ForEach(a => a.PerformParam = performanceParam);
-                                context.SaveChanges();
+                                var recordToUpd = totalPurchasesTp
+                                    .Where(s => s.Id ==purchasesTp.Id).ToList();
+
+                                if (performanceParam != null)
+                                {
+                                    recordToUpd.ForEach(s => s.PerformParam = performanceParam);
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    ErrorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: "+purchasesTp.DateYear+" miesiąc: "+purchasesTp.DateMonth);
+                                    return false;
+                                }
 
                                 if (certType == "FSC")
                                 {
@@ -549,8 +568,19 @@ namespace FSCReportSite.Controllers
                                 var purchasesWithCert = context.TotalPurchasesTf
                                     .Where(a => a.CertificateName == purchasesTf.CertificateName).ToList();
 
-                                purchasesWithCert.ForEach(a => a.PerformParam = performanceParam);
-                                context.SaveChanges();
+                                var recordToUpd = totalPurchasesTf
+                                    .Where(s => s.Id == purchasesTf.Id).ToList();
+
+                                if (performanceParam != null)
+                                {
+                                    recordToUpd.ForEach(a => a.PerformParam = performanceParam);
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    ErrorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTf.DateYear + " miesiąc: " + purchasesTf.DateMonth);
+                                    return false;
+                                }
 
                                 if (certType == "FSC")
                                 {
@@ -601,12 +631,14 @@ namespace FSCReportSite.Controllers
                 {
                     try
                     {
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFSC_TP");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFSC_TF");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchases_TP");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchases_TF");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSales_TP");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSales_TF");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTp");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTf");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTp");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTf");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTp");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTf");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTf");
                         context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
                         context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
                         context.SaveChanges();
@@ -967,7 +999,16 @@ namespace FSCReportSite.Controllers
 
         public ViewResult test1()
         {
-            if (UpdateFlutingProductWeight() == true)
+            if (
+                ClearTables() == true &&
+                ImportData() == true &&
+                MaterialAndProductUpdate("TP") == true &&
+                GroupPurchasesAndSales("TP") == true &&
+                AddParameters("TP", "FSC") == true &&
+                CalculatePurchuasePoints("TP", "FSC") == true &&
+                AddDifferenceFromPast("TP", "FSC") == true &&
+                CalculateReportPoints("TP", "FSC") == true
+               )
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
                 return View("MyAccount");
