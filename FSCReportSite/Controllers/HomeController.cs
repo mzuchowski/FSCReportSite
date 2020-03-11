@@ -197,6 +197,210 @@ namespace FSCReportSite.Controllers
             
         }
 
+        public bool AddDataToReport(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                try
+                {
+                    if (prodType == "TP" && certType == "FSC")
+                    {
+                        var purchasesTpData = context.TotalPurchasesTp.GroupBy(p =>
+                            new {p.DateMonth, p.DateYear}).Select(p =>
+                            new
+                            {
+                                p.Key.DateYear,
+                                p.Key.DateMonth,
+                                sumOfPurchasePoints =p.Sum(o => o.PurchasePointsFsc)
+                            }).ToList();
+
+                        var salesTpData = context.TotalSalesTp.Where(p => p.CertificatName != "FSC Controlled Wood").GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                            new
+                            {
+                                p.Key.DateYear,
+                                p.Key.DateMonth,
+                                sumOfSalePoints = p.Sum(o => o.SalesPoints)
+                            }).ToList();
+
+                        var reportData = purchasesTpData.Join(salesTpData,
+                            purchase => new {purchase.DateYear, purchase.DateMonth},
+                            sale => new {sale.DateYear, sale.DateMonth},
+                            (purchase, sale) => new
+                            {
+                                year =purchase.DateYear,
+                                month = purchase.DateMonth,
+                                purchasePoints = purchase.sumOfPurchasePoints,
+                                salePoints = sale.sumOfSalePoints
+                            }).ToList();
+
+                        foreach (var report in reportData)
+                        {
+                            context.ReportFscTp.Add(new ReportFscTp()
+                            {
+                                DateYear = report.year,
+                                DateMonth = report.month,
+                                PurchasePoints = report.purchasePoints,
+                                SalesPoints = report.salePoints
+                            });
+                            context.SaveChanges();
+                        }
+
+                        return true;
+
+                    }
+                    else if (prodType == "TP" && certType == "CW")
+                    {
+                        var purchasesTpData = context.TotalPurchasesTp.GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                              new
+                              {
+                                  p.Key.DateYear,
+                                  p.Key.DateMonth,
+                                  sumOfPurchasePoints = p.Sum(o => o.PurchasePointsCw)
+                              }).ToList();
+
+                        var salesTpData = context.TotalSalesTp.Where(p => p.CertificatName == "FSC Controlled Wood").GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                            new
+                            {
+                                p.Key.DateYear,
+                                p.Key.DateMonth,
+                                sumOfSalePoints = p.Sum(o => o.SalesPoints)
+                            }).ToList();
+
+                        var reportData = purchasesTpData.Join(salesTpData,
+                            purchase => new { purchase.DateYear, purchase.DateMonth },
+                            sale => new { sale.DateYear, sale.DateMonth },
+                            (purchase, sale) => new
+                            {
+                                year = purchase.DateYear,
+                                month = purchase.DateMonth,
+                                purchasePoints = purchase.sumOfPurchasePoints,
+                                salePoints = sale.sumOfSalePoints
+                            }).ToList();
+
+                        foreach (var report in reportData)
+                        {
+                            context.ReportCwTf.Add(new ReportCwTf()
+                            {
+                                DateYear = report.year,
+                                DateMonth = report.month,
+                                PurchasePoints = report.purchasePoints,
+                                SalesPoints = report.salePoints
+                            });
+                            context.SaveChanges();
+                        }
+
+                        return true;
+                    }
+                    else if (prodType == "TF" && certType == "FSC")
+                    {
+                        var purchasesTfData = context.TotalPurchasesTf.GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                              new
+                              {
+                                  p.Key.DateYear,
+                                  p.Key.DateMonth,
+                                  sumOfPurchasePoints = p.Sum(o => o.PurchasePointsFsc)
+                              }).ToList();
+
+                        var salesTfData = context.TotalSalesTf.Where(p => p.CertificatName != "FSC Controlled Wood").GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                            new
+                            {
+                                p.Key.DateYear,
+                                p.Key.DateMonth,
+                                sumOfSalePoints = p.Sum(o => o.SalesPoints)
+                            }).ToList();
+
+                        var reportData = purchasesTfData.Join(salesTfData,
+                            purchase => new { purchase.DateYear, purchase.DateMonth },
+                            sale => new { sale.DateYear, sale.DateMonth },
+                            (purchase, sale) => new
+                            {
+                                year = purchase.DateYear,
+                                month = purchase.DateMonth,
+                                purchasePoints = purchase.sumOfPurchasePoints,
+                                salePoints = sale.sumOfSalePoints
+                            }).ToList();
+
+                        foreach (var report in reportData)
+                        {
+                            context.ReportFscTf.Add(new ReportFscTf()
+                            {
+                                DateYear = report.year,
+                                DateMonth = report.month,
+                                PurchasePoints = report.purchasePoints,
+                                SalesPoints = report.salePoints
+                            });
+                            context.SaveChanges();
+                        }
+
+                        return true;
+                    }
+                    else if (prodType == "TF" && certType == "CW")
+                    {
+                        var purchasesTpData = context.TotalPurchasesTf.GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                              new
+                              {
+                                  p.Key.DateYear,
+                                  p.Key.DateMonth,
+                                  sumOfPurchasePoints = p.Sum(o => o.PurchasePointsCw)
+                              }).ToList();
+
+                        var salesTfData = context.TotalSalesTf.Where(p => p.CertificatName == "FSC Controlled Wood").GroupBy(p =>
+                            new { p.DateMonth, p.DateYear }).Select(p =>
+                            new
+                            {
+                                p.Key.DateYear,
+                                p.Key.DateMonth,
+                                sumOfSalePoints = p.Sum(o => o.SalesPoints)
+                            }).ToList();
+
+                        var reportData = purchasesTpData.Join(salesTfData,
+                            purchase => new { purchase.DateYear, purchase.DateMonth },
+                            sale => new { sale.DateYear, sale.DateMonth },
+                            (purchase, sale) => new
+                            {
+                                year = purchase.DateYear,
+                                month = purchase.DateMonth,
+                                purchasePoints = purchase.sumOfPurchasePoints,
+                                salePoints = sale.sumOfSalePoints
+                            }).ToList();
+
+                        foreach (var report in reportData)
+                        {
+                            context.ReportCwTf.Add(new ReportCwTf()
+                            {
+                                DateYear = report.year,
+                                DateMonth = report.month,
+                                PurchasePoints = report.purchasePoints,
+                                SalesPoints = report.salePoints
+                            });
+                            context.SaveChanges();
+                        }
+
+                        return true;
+                    }
+                    else
+                    {
+                        ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorMsg = ex.Message;
+                    return false;
+                }
+            }
+        }
+
         public bool GroupPurchasesAndSales(string prodTypeParam)
         {
             this.prodType = prodTypeParam;
@@ -347,8 +551,14 @@ namespace FSCReportSite.Controllers
                             }
                             else
                             {
-                                recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints);
-                                context.SaveChanges();
+                                if (lastMonthPoints == null || lastMonthPoints <0)
+                                {
+                                    lastMonthPoints = 0;
+                                }
+
+                                    recordToUpd.ForEach(s =>
+                                        s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints);
+                                    context.SaveChanges();
                             }
                         }
                         return true;
@@ -796,8 +1006,7 @@ namespace FSCReportSite.Controllers
 
             using (var context = new ApplicationDbContext(_options))
             {
-                if (context != null)
-                {
+                
                     try
                     {
                             var salesTf2Products = context.Sales
@@ -848,12 +1057,8 @@ namespace FSCReportSite.Controllers
                     }
 
                     return true;
-                }
-                else
-                {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
-                    return false;
-                }
+                
+                
 
             }
         }
@@ -997,17 +1202,64 @@ namespace FSCReportSite.Controllers
             }
         }
 
+        public bool CalculateDifference(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                if (prodType == "TP" && certType == "FSC")
+                {
+                    var report = context.ReportFscTp.ToList();
+                    report.ForEach(s => s.DifferencePoints = s.PurchasePoints - s.SalesPoints);
+                    context.SaveChanges();
+                    return true;
+                }
+                else if (prodType == "TP" && certType == "CW")
+                {
+                    var report = context.ReportCwTp.ToList();
+                    report.ForEach(s => s.DifferencePoints = s.PurchasePoints - s.SalesPoints);
+                    context.SaveChanges();
+                    return true;
+                }
+                 else if (prodType == "TF" && certType == "FSC")
+                {
+                    var report = context.ReportFscTf.ToList();
+                    report.ForEach(s => s.DifferencePoints = s.PurchasePoints - s.SalesPoints);
+                    context.SaveChanges();
+                    return true;
+                }
+                else if (prodType == "TF" && certType == "CW")
+                {
+                    var report = context.ReportCwTf.ToList();
+                    report.ForEach(s => s.DifferencePoints = s.PurchasePoints - s.SalesPoints);
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    ErrorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
+                    return false;
+                }
+            }
+            
+        }
+
         public ViewResult test1()
         {
             if (
+                
                 ClearTables() == true &&
                 ImportData() == true &&
                 MaterialAndProductUpdate("TP") == true &&
                 GroupPurchasesAndSales("TP") == true &&
                 AddParameters("TP", "FSC") == true &&
                 CalculatePurchuasePoints("TP", "FSC") == true &&
+                AddDataToReport("TP", "FSC") == true &&
+                CalculateDifference("TP", "FSC") ==true &&
                 AddDifferenceFromPast("TP", "FSC") == true &&
-                CalculateReportPoints("TP", "FSC") == true
+                CalculateReportPoints("TP", "FSC") == true 
                )
             {
                 @ViewData["Message"] = "Zaktualizowano Materiały";
