@@ -533,8 +533,7 @@ namespace FSCReportSite.Controllers
 
             using (var context = new ApplicationDbContext(_options))
             {
-                if (context != null)
-                {
+                
                     if (prodType == "TP" && certType == "FSC")
                     {
                         var reportFsc = context.ReportFscTp.ToList();
@@ -572,8 +571,22 @@ namespace FSCReportSite.Controllers
                             var recordToUpd = reportFsc.Where(s => s.Id == report.Id).ToList();
                             var lastMonthPoints = reportFsc.Where(s => s.Id == report.Id - 1).Select(s => s.AmountOfPoints).SingleOrDefault();
 
-                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
-                            context.SaveChanges();
+                            if (report.OldDifferencePoints != null && report.OldDifferencePoints > 0)
+                            {
+                                recordToUpd.ForEach(s =>
+                                    s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                if (lastMonthPoints == null || lastMonthPoints < 0)
+                                {
+                                    lastMonthPoints = 0;
+                                }
+                                recordToUpd.ForEach(s => 
+                                    s.AmountOfPoints =s.PurchasePoints + lastMonthPoints -s.SalesPoints);
+                                context.SaveChanges();
+                            }
                         }
 
                         return true;
@@ -587,8 +600,22 @@ namespace FSCReportSite.Controllers
                             var recordToUpd = reportCw.Where(s => s.Id == report.Id).ToList();
                             var lastMonthPoints = reportCw.Where(s => s.Id == report.Id - 1).Select(s => s.AmountOfPoints).SingleOrDefault();
 
-                            recordToUpd.ForEach(s => s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
-                            context.SaveChanges();
+                            if(report.OldDifferencePoints != null && report.OldDifferencePoints > 0)
+                            {
+                                recordToUpd.ForEach(s =>
+                                    s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                if (lastMonthPoints == null || lastMonthPoints < 0)
+                                {
+                                    lastMonthPoints = 0;
+                                }
+                                recordToUpd.ForEach(s =>
+                                    s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints);
+                                context.SaveChanges();
+                            }
                         }
                         return true;
                     }
@@ -602,10 +629,22 @@ namespace FSCReportSite.Controllers
                             var lastMonthPoints = reportCw.Where(s => s.Id == report.Id - 1)
                                 .Select(s => s.AmountOfPoints).SingleOrDefault();
 
-                            recordToUpd.ForEach(s =>
-                                s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints -
-                                                   s.OldDifferencePoints);
-                            context.SaveChanges();
+                            if(report.OldDifferencePoints != null && report.OldDifferencePoints > 0)
+                            {
+                                recordToUpd.ForEach(s =>
+                                    s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints - s.OldDifferencePoints);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                if (lastMonthPoints == null || lastMonthPoints < 0)
+                                {
+                                    lastMonthPoints = 0;
+                                }
+                                recordToUpd.ForEach(s =>
+                                    s.AmountOfPoints = s.PurchasePoints + lastMonthPoints - s.SalesPoints);
+                                context.SaveChanges();
+                            }
                         }
                         return true;
                     }
@@ -614,12 +653,7 @@ namespace FSCReportSite.Controllers
                         ErrorMsg = "Produkt lub certyfikat są nieprawidłowe";
                         return false;
                     }
-                }
-                else
-                {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
-                    return false;
-                }
+                
             }
         }
 
@@ -1055,11 +1089,8 @@ namespace FSCReportSite.Controllers
                         ErrorMsg = ex.Message;
                         return false;
                     }
-
-                    return true;
                 
-                
-
+       
             }
         }
 
