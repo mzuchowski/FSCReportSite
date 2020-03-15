@@ -1,8 +1,49 @@
 ﻿
 @{
-    ViewData["Title"] = "SolidBoardReportFSCView";
+    ViewData["Title"] = "FSC TP Raport";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>SolidBoardReportFSCView</h2>
+<h3>@ViewData["Message"]</h3>
 
+<p>Use this area to provide additional information.</p>
+
+<body>
+<form asp-controller="Report" asp-action="ShowLastRepFscTp" method="post">
+    <!-- <ul class="nav navbar-nav navbar-right">
+
+        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+        <li></li>
+    </ul> -->
+    <button type="submit" class="btn btn-info btn-sm">Wyświetl ostatni raport</button>
+</form>
+
+<table class="table  table-striped table-bordered ">
+    <thead>
+    <tr>
+        <th>Rok</th>
+        <th>Miesiąc</th>
+        <th>Zakup</th>
+        <th>Sprzedaż</th>
+        <th>Różnica</th>
+        <th>Różnica archiwum</th>
+        <th><b>Punkty FSC</b></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var result in Model)
+    {
+        <tr>
+            <td>@result.</td>
+            <td>@xyz.OperationType</td>
+            <td>@xyz.Fsc</td>
+            <td>@xyz.ProductIndex</td>
+            <td class=" last"><a href="#">View</a></td>
+        </tr>
+    }
+    
+    </tbody>
+</table>
+</body>

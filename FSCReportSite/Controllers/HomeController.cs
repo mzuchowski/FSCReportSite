@@ -18,14 +18,7 @@ namespace FSCReportSite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DbContextOptions<ApplicationDbContext> _options;
-        private readonly DbContextOptions<SourceDbContext> _sourceOptions;
-
-        public HomeController(DbContextOptions<ApplicationDbContext> options, DbContextOptions<SourceDbContext> sourceOptions)
-        {
-            _options = options;
-            _sourceOptions = sourceOptions;
-        }
+        
 
         //  public HomeController(DbContextOptions<SourceDbContext> sourceOptions)
         // {
@@ -73,38 +66,10 @@ namespace FSCReportSite.Controllers
         }
 
         
-        public ViewResult test1()
-        {
-            Reports rep = new Reports(_options, _sourceOptions);
-            if (
 
-              /*  ClearTables() == true &&
-                ImportData() == true &&
-                MaterialAndProductUpdate("TP") == true &&
-                GroupPurchasesAndSales("TP") == true &&
-                AddParameters("TP", "FSC") == true &&
-                CalculatePurchuasePoints("TP", "FSC") == true &&
-                AddDataToReport("TP", "FSC") == true &&
-                CalculateDifference("TP", "FSC") ==true &&
-                AddDifferenceFromPast("TP", "FSC") == true &&
-                CalculateReportPoints("TP", "FSC") == true
-                */
-            rep.CalculatePurchuasePoints("TP", "FSC")==true
-               )
-            {
-                
-                @ViewData["Message"] = "Zaktualizowano Materiały";
-                return View("MyAccount");
-            }
-            else
-            {
-                @ViewData["Message"] = "Niepowodzenie - aktualizacja materiałów "+ rep.ErrorMsg;
-                return View("MyAccount");
-            }
-        }
-    
 
-[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

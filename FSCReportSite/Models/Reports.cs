@@ -25,6 +25,15 @@ namespace FSCReportSite.Models
             _sourceOptions = sourceOptions;
         }
 
+        public List<ReportFscTp> ShowReportFscTp()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var resultFscTp = context.ReportFscTp.ToList();
+                return resultFscTp;
+            }
+        }
+
         public bool ImportData()
         {
             using (var sourceContext = new SourceDbContext(_sourceOptions))
