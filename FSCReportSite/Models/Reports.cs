@@ -793,39 +793,56 @@ namespace FSCReportSite.Models
             }
         }
 
-        public bool ClearTables()
+        public bool ClearTables(string prodTypeParam, string certTypeParam)
         {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
             using (var context = new ApplicationDbContext(_options))
             {
-                if (context != null)
+                
+                try
                 {
-                    try
+                    
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTp");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTf");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTf");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
+                    if (prodType == "TP" && certType == "FSC")
                     {
                         context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTp");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTf");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTp");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTf");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTp");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTf");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTf");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
-                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
-                        context.SaveChanges();
-
-                        return true;
                     }
-                    catch (Exception ex)
+                    else if(prodType == "TP" && certType == "CW")
                     {
-                        ErrorMsg = ex.Message;
-                        return false;
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTp");
                     }
+                    else if (prodType == "TF" && certType == "FSC")
+                    {
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTf");
+                    }
+                    else if (prodType == "TF" && certType == "CW")
+                    {
+                        context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportCwTf");
+                    }
+                    else
+                    {
+                        return false;
+                        ErrorMsg = "Niepoprawny typ surowca lub certyfikatu - czyszczenie tabel";
+                    }
+                    
+                    
+                    context.SaveChanges();
+
+                    return true;
                 }
-                else
+                catch (Exception ex)
                 {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    ErrorMsg = ex.Message;
                     return false;
                 }
+                
             }
         }
 
