@@ -34,6 +34,33 @@ namespace FSCReportSite.Models
             }
         }
 
+        public List<ReportFscTf> ShowReportFscTf()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var resultFscTf = context.ReportFscTf.ToList();
+                return resultFscTf;
+            }
+        }
+
+        public List<ReportCwTp> ShowReportCwTp()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var resultCwTp = context.ReportCwTp.ToList();
+                return resultCwTp;
+            }
+        }
+
+        public List<ReportCwTf> ShowReportCwTf()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var resultCwTf = context.ReportCwTf.ToList();
+                return resultCwTf;
+            }
+        }
+
         public bool ImportData()
         {
             using (var sourceContext = new SourceDbContext(_sourceOptions))
@@ -211,7 +238,7 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            context.ReportCwTf.Add(new ReportCwTf()
+                            context.ReportCwTp.Add(new ReportCwTp()
                             {
                                 DateYear = report.year,
                                 DateMonth = report.month,
@@ -828,8 +855,8 @@ namespace FSCReportSite.Models
                     }
                     else
                     {
-                        return false;
                         ErrorMsg = "Niepoprawny typ surowca lub certyfikatu - czyszczenie tabel";
+                        return false;
                     }
                     
                     
@@ -1154,26 +1181,6 @@ namespace FSCReportSite.Models
                 }
             }
 
-        }
-
-        public bool DataUpdate() //PRZENIEŚĆ DO INNEGO CONTROLERA --TESTTOWA FUNCKCJA do usuniecia ...UpdateFlutingProductWeight()
-        {
-            using (var context = new ApplicationDbContext(_options))
-            {
-
-                if (context != null)
-                {
-                    var purchase = context.Purchases.FromSql("SELECT * FROM PURCHASES WHERE LEFT(ProductIndex,2)='PF'").ToList();
-                    purchase.ForEach(a => a.Fsc = "test2020");
-                    context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
-                    return false;
-                }
-            }
         }
 
         public bool CalculateDifference(string prodTypeParam, string certTypeParam)
