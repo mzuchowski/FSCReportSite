@@ -5,13 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AddCertificateParameters</h2>
+<h1>Dodawanie certyfikatu</h1>
+<br>
+<h2>@ViewData["Message"]</h2>
 
-<h4>CertificateParameters</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="Parameter" asp-action="CertificateParametersForm" method="post">
+        <form asp-controller="Parameter" asp-action="AddCertificateParameter" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CertificateName" class="control-label"></label>
@@ -20,22 +21,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="ParameterFsc" class="control-label"></label>
-                <input asp-for="ParameterFsc" class="form-control" />
+                <input asp-for="ParameterFsc" class="form-control" placeholder="0,00" />
                 <span asp-validation-for="ParameterFsc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ParameterCw" class="control-label"></label>
-                <input asp-for="ParameterCw" class="form-control" />
+                <input asp-for="ParameterCw" class="form-control" placeholder="0,00" />
                 <span asp-validation-for="ParameterCw" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <button type="submit" class="btn btn-primary">Dodaj</button>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="CertificateParametersForm">Powrót do listy certyfikatów</a>
 </div>
 

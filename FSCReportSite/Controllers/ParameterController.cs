@@ -55,22 +55,38 @@ namespace FSCReportSite.Controllers
            // return View();
         }
 
-        [HttpPost]
-        public ActionResult CertificateParametersForm(PerformanceParameters model)
-        {
-            var performParamModel = model;
-
-            Parameters AddParam = new Parameters(_options, _sourceOptions);
-            AddParam.AddPerformParam(performParamModel);
-            var result = AddParam.ShowCertParam();
-
-            @ViewData["Message"] = "Parametr dodany pomyślnie!";
-            return View("CertificateParametersForm",result);
-        }
-
-        public ViewResult AddCertificateParameters()
+        [HttpGet]
+        public ViewResult AddCertificateParameter()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ViewResult AddCertificateParameter(CertificateParameters model)
+        {
+            if (ModelState.IsValid)
+            {
+                var certParamModel = model;
+                var paramSum = model.ParameterCw + model.ParameterFsc;
+                if (paramSum == 1)
+                {
+                    Parameters AddParam = new Parameters(_options, _sourceOptions);
+                    AddParam.AddCertParam(certParamModel);
+                    var result = AddParam.ShowCertParam();
+
+                    @ViewData["Message"] = "Certyfikat " + model.CertificateName + " został dodany pomyślnie!";
+                    return View("CertificateParametersForm", result);
+                }
+                else
+                {
+                    @ViewData["Message"] = "Suma wartości współczynników FSC i CW musi być równa 1";
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
