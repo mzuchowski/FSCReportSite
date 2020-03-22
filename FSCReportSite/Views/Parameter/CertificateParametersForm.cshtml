@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Parametry certyfikatu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>CertyficateFactorView</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<body>
+    <form>
+        <button type="submit" class="btn btn-info btn-sm" asp-controller="Parameter" asp-action="AddCertificateParameters">Dodaj certyfikat</button>
+    </form>
+<table class="table  table-striped table-bordered jambo_table">
+    <thead>
+        <tr>
+            <th>Certyfikat</th>
+            <th>Współczynnik FSC</th>
+            <th>Współczynnik CW</th>
+        </tr>
+    </thead>
+    <tbody>
+        @try
+    {
+        foreach (CertificateParameters result in Model)
+        {
+        <tr>
+            <td>@result.CertificateName</td>
+            <td>@result.ParameterFsc</td>
+            <td>@result.ParameterCw</td>
+            <td class=" last"><a href="#">Edytuj</a></td>
+            <td class=" last"><a href="#" text-color="red">Usuń</a></td>
+        </tr>
+        }
+    }
+    catch
+    {
+    }
+
+    </tbody>
+</table>
+</body>
+
+   
+

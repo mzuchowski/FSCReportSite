@@ -653,7 +653,7 @@ namespace FSCReportSite.Models
                             }
                             else if (certType == "CW")
                             {
-                                totalPurchasesTf.ForEach(b => b.CertificateParamCw = Convert.ToInt32(b.ProductWeight * b.PerformParam * b.CertificateParamCw));
+                                totalPurchasesTf.ForEach(b => b.PurchasePointsCw = Convert.ToInt32(b.ProductWeight * b.PerformParam * b.CertificateParamCw));
                                 context.SaveChanges();
                             }
                             else
