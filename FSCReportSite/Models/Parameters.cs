@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FSCReportSite.Models
@@ -63,6 +64,24 @@ namespace FSCReportSite.Models
                     ParameterCw = model.ParameterCw
                 });
                 context.SaveChanges();
+            }
+        }
+
+        public bool CheckCertificate(string certNameParam)
+        {
+            string certName = certNameParam;
+
+            using (var context = new ApplicationDbContext(_options,_sourceOptions))
+            {
+                var result = context.CertificateParameters.Where(s => s.CertificateName == certName).FirstOrDefault();
+                if (result == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

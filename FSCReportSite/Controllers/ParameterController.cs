@@ -68,14 +68,23 @@ namespace FSCReportSite.Controllers
             {
                 var certParamModel = model;
                 var paramSum = model.ParameterCw + model.ParameterFsc;
+                Parameters AddParam = new Parameters(_options, _sourceOptions);
+
                 if (paramSum == 1)
                 {
-                    Parameters AddParam = new Parameters(_options, _sourceOptions);
-                    AddParam.AddCertParam(certParamModel);
-                    var result = AddParam.ShowCertParam();
+                    if (AddParam.CheckCertificate(certParamModel.CertificateName) == true)
+                    {
+                        AddParam.AddCertParam(certParamModel);
+                        var result = AddParam.ShowCertParam();
 
-                    @ViewData["Message"] = "Certyfikat " + model.CertificateName + " został dodany pomyślnie!";
-                    return View("CertificateParametersForm", result);
+                        @ViewData["Message"] = "Certyfikat " + model.CertificateName + " został dodany pomyślnie!";
+                        return View("CertificateParametersForm", result);
+                    }
+                    else
+                    {
+                        @ViewData["Message"] = "Certyfikat o podanej nazwie już istnieje";
+                        return View();
+                    }
                 }
                 else
                 {
