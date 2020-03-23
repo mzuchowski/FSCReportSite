@@ -67,11 +67,11 @@ namespace FSCReportSite.Models
             }
         }
 
-        public bool CheckCertificate(string certNameParam)
+        public bool CheckCertificateName(string certNameParam)
         {
             string certName = certNameParam;
 
-            using (var context = new ApplicationDbContext(_options,_sourceOptions))
+            using (var context = new ApplicationDbContext(_options))
             {
                 var result = context.CertificateParameters.Where(s => s.CertificateName == certName).FirstOrDefault();
                 if (result == null)
@@ -84,6 +84,8 @@ namespace FSCReportSite.Models
                 }
             }
         }
+
+       
     }
 }
     

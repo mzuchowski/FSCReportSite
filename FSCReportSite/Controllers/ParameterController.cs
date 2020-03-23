@@ -72,7 +72,7 @@ namespace FSCReportSite.Controllers
 
                 if (paramSum == 1)
                 {
-                    if (AddParam.CheckCertificate(certParamModel.CertificateName) == true)
+                    if (AddParam.CheckCertificateName(certParamModel.CertificateName) == true)
                     {
                         AddParam.AddCertParam(certParamModel);
                         var result = AddParam.ShowCertParam();
@@ -96,6 +96,21 @@ namespace FSCReportSite.Controllers
             {
                 return View();
             }
+        }
+
+        public ViewResult EditCertificateParameter(string certNameParam, float valueFscParam, float valueCwParam)
+        {
+            CertificateParameters currentCertParam =new CertificateParameters();
+            currentCertParam.CertificateName = certNameParam;
+            currentCertParam.ParameterFsc = valueFscParam;
+            currentCertParam.ParameterCw = valueCwParam;
+
+            return View(currentCertParam);
+        }
+
+        public ViewResult DeleteCertificateParameter()
+        {
+            return View("CertificateParametersForm");
         }
     }
 }

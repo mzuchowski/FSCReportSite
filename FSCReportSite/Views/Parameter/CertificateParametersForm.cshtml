@@ -20,10 +20,12 @@
             <th>Certyfikat</th>
             <th>Współczynnik FSC</th>
             <th>Współczynnik CW</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @try
+    @try
     {
         foreach (CertificateParameters result in Model)
         {
@@ -31,8 +33,9 @@
             <td>@result.CertificateName</td>
             <td>@result.ParameterFsc</td>
             <td>@result.ParameterCw</td>
-            <td class=" last"><a href="#">Edytuj</a></td>
-            <td class=" last"><a href="#" text-color="red">Usuń</a></td>
+            <td>@Html.ActionLink("Edytuj","EditCertificateParameter","Parameter",new{certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw})</td>
+            <td>@Html.ActionLink("Usuń","EditCertificateParameter","Parameter",new{param=result},new{@style="color: red"})</td>
+            <!--certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw -->
         </tr>
         }
     }
