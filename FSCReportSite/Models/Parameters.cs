@@ -38,7 +38,16 @@ namespace FSCReportSite.Models
             }
         }
 
-        public void AddPerformParam(PerformanceParameters model)
+        public List<PerformanceParameters> ShowPerfParam()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var resultPerfParam = context.PerformanceParameters.ToList();
+                return resultPerfParam;
+            }
+        }
+
+        public void AddPerfParam(PerformanceParameters model)
         {
             using (var context = new ApplicationDbContext(_options))
             {
@@ -63,6 +72,18 @@ namespace FSCReportSite.Models
                     ParameterFsc = model.ParameterFsc,
                     ParameterCw = model.ParameterCw
                 });
+                context.SaveChanges();
+            }
+        }
+
+        public void EditCertParam(CertificateParameters model)
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var certParamList = context.CertificateParameters.Where(p => p.CertificateName == model.CertificateName).ToList();
+                certParamList.ForEach(s => s.ParameterCw = model.ParameterCw);
+                certParamList.ForEach(s => s.ParameterFsc = model.ParameterFsc);
+
                 context.SaveChanges();
             }
         }

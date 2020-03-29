@@ -3,20 +3,22 @@
 @{
     ViewData["Title"] = "EditCertificateParameter";
     Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 <h2>EditCertificateParameter</h2>
 
 <h4>CertificateParameters</h4>
+<h2>@ViewData["Message"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditCertificateParameter">
+        <form asp-controller="Parameter" asp-action="SaveChangeCertificateParameter" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CertificateName" class="control-label"></label>
-                <input asp-for="CertificateName" class="form-control" />
+                <input asp-for="CertificateName" class="form-control" readonly />
                 <span asp-validation-for="CertificateName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,13 +32,13 @@
                 <span asp-validation-for="ParameterCw" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="CertificateParametersForm">Powrót do listy certyfikatów</a>
 </div>
 

@@ -6,6 +6,7 @@ using FSCReportSite.Data;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace FSCReportSite.Controllers
@@ -40,7 +41,7 @@ namespace FSCReportSite.Controllers
             var performParamModel = model;
 
             Parameters PerformParam = new Parameters(_options,_sourceOptions);
-            PerformParam.AddPerformParam(performParamModel);
+            PerformParam.AddPerfParam(performParamModel);
 
             @ViewData["Message"] = "Parametr dodany pomyślnie!";
             return View();
@@ -66,15 +67,14 @@ namespace FSCReportSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var certParamModel = model;
                 var paramSum = model.ParameterCw + model.ParameterFsc;
                 Parameters AddParam = new Parameters(_options, _sourceOptions);
 
                 if (paramSum == 1)
                 {
-                    if (AddParam.CheckCertificateName(certParamModel.CertificateName) == true)
+                    if (AddParam.CheckCertificateName(model.CertificateName) == true)
                     {
-                        AddParam.AddCertParam(certParamModel);
+                        AddParam.AddCertParam(model);
                         var result = AddParam.ShowCertParam();
 
                         @ViewData["Message"] = "Certyfikat " + model.CertificateName + " został dodany pomyślnie!";
@@ -98,14 +98,38 @@ namespace FSCReportSite.Controllers
             }
         }
 
+
         public ViewResult EditCertificateParameter(string certNameParam, float valueFscParam, float valueCwParam)
         {
-            CertificateParameters currentCertParam =new CertificateParameters();
-            currentCertParam.CertificateName = certNameParam;
-            currentCertParam.ParameterFsc = valueFscParam;
-            currentCertParam.ParameterCw = valueCwParam;
+            CertificateParameters currentCertParam = new CertificateParameters
+            {
+                CertificateName = certNameParam,
+                ParameterFsc = valueFscParam,
+                ParameterCw = valueCwParam
+            };
+            return View("EditCertificateParameter",currentCertParam);
+        }
 
-            return View(currentCertParam);
+        [HttpPost]
+        public ViewResult SaveChangeCertificateParameter(CertificateParameters model)
+        {
+            var paramSum =model.ParameterFsc + model.ParameterCw;
+
+
+            if (paramSum == 1)
+            {
+                Parameters EditCertParam = new Parameters(_options, _sourceOptions);
+                EditCertParam.EditCertParam(model);
+                var result = EditCertParam.ShowCertParam();
+
+                @ViewData["Message"] = "Certyfikat" + model.CertificateName + "został zaktualizowany pomyślnie";
+                return View("CertificateParametersForm", result);
+            }
+            else
+            {
+                @ViewData["Message"] = "Suma wartości współczynników FSC i CW musi być równa 1";
+                return View("EditCertificateParameter",model);
+            }
         }
 
         public ViewResult DeleteCertificateParameter()
