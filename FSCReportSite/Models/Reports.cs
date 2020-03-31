@@ -873,7 +873,7 @@ namespace FSCReportSite.Models
             }
         }
 
-        public void CreateReport(string prodTypeParam, string certTypeParam)
+        public void CreateReport(string prodTypeParam, string certTypeParam) //Aktualnie nie używane --DODANIE REKORDÓW, TWORZENIE RAPORTU
         {
             this.prodType = prodTypeParam;
             this.certType = certTypeParam;

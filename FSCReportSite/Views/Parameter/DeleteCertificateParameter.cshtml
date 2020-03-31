@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<h3>Czy na pewno chesz usunąć ten certyfikat?</h3>
+<div>
+    <h4>Informacje o certyfikacie: </h4>
+    @foreach (CertificateParameters value in Model)
+    {
+        <p><b>Nazwa certyfikatu: </b>@value.CertificateName</p>
+        <p><b>Parametr FSC: </b>@value.ParameterFsc</p>
+        <p><b>Parametr CW: </b>@value.ParameterCw</p>
+
+        <form asp-controller="Parameter" asp-action="DeleteCertParam" method="post">
+            <input type="hidden" name="idParam" value=@value.Id />
+            <input type="submit" value="Usuń" class="btn btn-primary" />
+        </form>
+        <a asp-action="CertificateParametersForm">Powrót do listy certyfikatów</a>
+    }
+
+
+</div>

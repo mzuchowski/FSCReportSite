@@ -132,9 +132,40 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public ViewResult DeleteCertificateParameter()
+        public ViewResult DeleteCertificateParameter(int id, string certNameParam, float valueFscParam, float valueCwParam)
         {
-            return View("CertificateParametersForm");
+            
+            List<CertificateParameters> value = new List<CertificateParameters>()
+            {
+                new CertificateParameters()
+                {
+                    Id = id,
+                    CertificateName = certNameParam,
+                    ParameterFsc = valueFscParam,
+                    ParameterCw = valueCwParam
+                }
+            };
+
+            return View("DeleteCertificateParameter",value);
+        }
+
+        [HttpPost]
+        public ViewResult DeleteCertParam(int idParam)
+        {
+            Parameters CertParam = new Parameters(_options,_sourceOptions);
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var certToDel = context.CertificateParameters.Find(idParam);
+                context.CertificateParameters.Remove(certToDel);
+                context.SaveChanges();
+
+                @ViewData["Message"] = "Certyfikat " + certToDel.CertificateName + " został usunięty";
+            }
+       
+            var result = CertParam.ShowCertParam();
+           
+            return View("CertificateParametersForm", result);
         }
     }
 }
