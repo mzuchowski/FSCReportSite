@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Parametry certyfikatu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>PerformanceParameterView</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<body>
+<form>
+    <button type="submit" class="btn btn-info btn-sm" asp-controller="Parameter" asp-action="AddPerformanceParameter">Dodaj współczynnik</button>
+</form>
+<table class="table  table-striped table-bordered jambo_table">
+    <thead>
+    <tr>
+        <th>Rok</th>
+        <th>Miesiąc</th>
+        <th>Wydajność TL</th>
+        <th>Wydajność TF</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @try
+    {
+        foreach (PerformanceParameters result in Model)
+        {
+        <tr>
+            <td>@result.YearOfDocument</td>
+            <td>@result.MonthOfDocument</td>
+            <td>@result.Tlperformance</td>
+            <td>@result.Tfperformance</td>
+            <td>@Html.ActionLink("Edytuj", "EditPerfParameter", "Parameter", new { year = result.YearOfDocument, month = result.MonthOfDocument, valueTlParam = result.Tlperformance, valueTfParam = result.Tfperformance })</td>
+            <td>@Html.ActionLink("Usuń", "DeletePerfParam", "Parameter", new { id = result.Id, year = result.YearOfDocument, month = result.MonthOfDocument, valueTlParam = result.Tlperformance, valueTfParam = result.Tfperformance }, new { @style = "color: red" })</td>
+        </tr>
+        }
+    }
+    catch
+    {
+    }
+
+    </tbody>
+</table>
+</body>
+
+
+

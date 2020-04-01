@@ -16,7 +16,7 @@
         <p><b>Parametr FSC: </b>@value.ParameterFsc</p>
         <p><b>Parametr CW: </b>@value.ParameterCw</p>
 
-        <form asp-controller="Parameter" asp-action="DeleteCertParam" method="post">
+        <form asp-controller="Parameter" asp-action="DeleteCertificateParameter" method="post">
             <input type="hidden" name="idParam" value=@value.Id />
             <input type="submit" value="Usuń" class="btn btn-primary" />
         </form>

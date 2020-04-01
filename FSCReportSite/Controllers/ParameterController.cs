@@ -22,29 +22,12 @@ namespace FSCReportSite.Controllers
             _sourceOptions = sourceOptions;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public ViewResult PerformanceParameterForm()
         {
-            Parameters showParamList = new Parameters(_options, _sourceOptions);
-            var result = showParamList.ShowCertParam();
-            return View(result);
-        }
-
-        [HttpPost]
-        public ActionResult PerformanceParameterForm(PerformanceParameters model)
-        {
-            var performParamModel = model;
-
-            Parameters PerformParam = new Parameters(_options,_sourceOptions);
-            PerformParam.AddPerfParam(performParamModel);
-
-            @ViewData["Message"] = "Parametr dodany pomyślnie!";
-            return View();
+            Parameters paramList = new Parameters(_options, _sourceOptions);
+            var result = paramList.ShowPerfParam();
+            return View("PerformanceParametersForm",result);
         }
 
         [HttpGet]
@@ -53,7 +36,6 @@ namespace FSCReportSite.Controllers
             Parameters paramList = new Parameters(_options,_sourceOptions);
             var result =paramList.ShowCertParam();
             return View("CertificateParametersForm", result);
-           // return View();
         }
 
         [HttpGet]
@@ -133,7 +115,7 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpGet]
-        public ViewResult DeleteCertParam(int id, string certNameParam, float valueFscParam, float valueCwParam)
+        public ViewResult DeleteCertificateParameter(int id, string certNameParam, float valueFscParam, float valueCwParam)
         {
             
             List<CertificateParameters> value = new List<CertificateParameters>()
@@ -151,7 +133,7 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpPost]
-        public ViewResult DeleteCertParam(int idParam)
+        public ViewResult DeleteCertificateParameter(int idParam)
         {
             Parameters CertParam = new Parameters(_options,_sourceOptions);
 
