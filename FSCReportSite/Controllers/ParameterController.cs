@@ -132,7 +132,8 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public ViewResult DeleteCertificateParameter(int id, string certNameParam, float valueFscParam, float valueCwParam)
+        [HttpGet]
+        public ViewResult DeleteCertParam(int id, string certNameParam, float valueFscParam, float valueCwParam)
         {
             
             List<CertificateParameters> value = new List<CertificateParameters>()
