@@ -131,10 +131,11 @@ namespace FSCReportSite.Controllers
             }
         }
 
-        public ViewResult EditCertificateParameter(string certNameParam, float valueFscParam, float valueCwParam)
+        public ViewResult EditCertificateParameter(int idParam, string certNameParam, float valueFscParam, float valueCwParam)
         {
             CertificateParameters currentCertParam = new CertificateParameters
             {
+                Id = idParam,
                 CertificateName = certNameParam,
                 ParameterFsc = valueFscParam,
                 ParameterCw = valueCwParam

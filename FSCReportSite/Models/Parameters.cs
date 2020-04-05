@@ -102,7 +102,7 @@ namespace FSCReportSite.Models
                 using (var context = new ApplicationDbContext(_options))
                 {
                     var certParamList = context.CertificateParameters
-                        .Where(p => p.CertificateName == model.CertificateName).ToList();
+                        .Where(p => p.Id == model.Id).ToList();
                     certParamList.ForEach(s => s.ParameterCw = model.ParameterCw);
                     certParamList.ForEach(s => s.ParameterFsc = model.ParameterFsc);
 
