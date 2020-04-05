@@ -91,10 +91,9 @@ namespace FSCReportSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var paramSum = model.Tlperformance + model.Tfperformance;
                 Parameters AddParam = new Parameters(_options, _sourceOptions);
 
-                if (paramSum <= 1)
+                if (model.Tlperformance <= 1 && model.Tfperformance <= 1)
                 {
                     if (AddParam.CheckPerfDate(Convert.ToInt32(model.YearOfDocument), Convert.ToInt32(model.MonthOfDocument)) == true) //ZMIENIĆ NA SPRAWDZANIE ROKU I MIESIACA
                     {
@@ -122,7 +121,7 @@ namespace FSCReportSite.Controllers
                 }
                 else
                 {
-                    @ViewData["Message"] = "Suma wartości współczynników nie może przekraczać 1";
+                    @ViewData["Message"] = "Wartość współczynnika nie może przekraczać 1";
                     return View();
                 }
             }
@@ -168,7 +167,7 @@ namespace FSCReportSite.Controllers
 
                 if (editStatus)
                 {
-                    @ViewData["Message"] = "Certyfikat" + model.CertificateName + "został zaktualizowany pomyślnie";
+                    @ViewData["Message"] = "Certyfikat " + model.CertificateName + " został zaktualizowany pomyślnie";
                     return View("CertificateParametersForm", result);
                 }
                 else
@@ -188,9 +187,8 @@ namespace FSCReportSite.Controllers
         [HttpPost]
         public ViewResult SaveChangePerformanceParameter(PerformanceParameters model)
         {
-            var paramSum = model.Tlperformance + model.Tfperformance;
 
-            if (paramSum == 1)
+            if (model.Tlperformance <= 1 && model.Tfperformance <=1)
             {
                 Parameters EditPerfParam = new Parameters(_options, _sourceOptions);
                 var editStatus = EditPerfParam.EditPerfParam(model);
@@ -198,7 +196,7 @@ namespace FSCReportSite.Controllers
 
                 if (editStatus)
                 {
-                    @ViewData["Message"] = "Certyfikat" + model.YearOfDocument + "." + model.MonthOfDocument + "został zaktualizowany pomyślnie";
+                    @ViewData["Message"] = "Współczynnik dla: " + model.YearOfDocument + "." + model.MonthOfDocument + " został zaktualizowany pomyślnie";
                     return View("PerformanceParametersForm", result);
                 }
                 else
@@ -210,7 +208,7 @@ namespace FSCReportSite.Controllers
             }
             else
             {
-                @ViewData["Message"] = "Suma wartości współczynników FSC i CW musi być równa 1";
+                @ViewData["Message"] = "Wartość współczynnika nie możę przekraczać 1";
                 return View("EditPerformanceParameter", model);
             }
         }
@@ -254,17 +252,17 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpGet]
-        public ViewResult DeletePerformanceParameter(int id, int yearParam, int monthParam, float valueTpParam, float valueTfParam)
+        public ViewResult DeletePerformanceParameter(int idParam, int yearParam, int monthParam, float valueTpParam, float valueTfParam)
         {
             List<PerformanceParameters> value = new List<PerformanceParameters>()
             {
                 new PerformanceParameters()
                 {
-                    Id = id,
+                    Id = idParam,
                     YearOfDocument = yearParam,
                     MonthOfDocument = monthParam,
                     Tlperformance = valueTpParam,
-                    Tfperformance = valueTpParam
+                    Tfperformance = valueTfParam
                 }
             };
 
@@ -272,7 +270,7 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpPost]
-        public ViewResult DeleteCertificateParameter(int idParam, int yearParam, int monthParam)
+        public ViewResult DeletePerformanceParameter(int idParam, int yearParam, int monthParam)
         {
             Parameters PerfParam = new Parameters(_options, _sourceOptions);
             var delParamStatus = PerfParam.DeletePerfParam(idParam);

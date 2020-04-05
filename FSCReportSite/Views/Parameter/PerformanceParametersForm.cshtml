@@ -35,8 +35,8 @@
             <td>@result.MonthOfDocument</td>
             <td>@result.Tlperformance</td>
             <td>@result.Tfperformance</td>
-            <td>@Html.ActionLink("Edytuj", "EditPerformanceParameter", "Parameter", new { year = result.YearOfDocument, month = result.MonthOfDocument, valueTlParam = result.Tlperformance, valueTfParam = result.Tfperformance })</td>
-            <td>@Html.ActionLink("Usuń", "DeletePerformanceParameter", "Parameter", new { id = result.Id, year = result.YearOfDocument, month = result.MonthOfDocument, valueTlParam = result.Tlperformance, valueTfParam = result.Tfperformance }, new { @style = "color: red" })</td>
+            <td>@Html.ActionLink("Edytuj", "EditPerformanceParameter", "Parameter", new { yearParam = result.YearOfDocument, monthParam = result.MonthOfDocument, valueTpParam = result.Tlperformance, valueTfParam = result.Tfperformance })</td>
+            <td>@Html.ActionLink("Usuń", "DeletePerformanceParameter", "Parameter", new { idParam = result.Id, yearParam = result.YearOfDocument, monthParam = result.MonthOfDocument, valueTlParam = result.Tlperformance, valueTfParam = result.Tfperformance }, new { @style = "color: red" })</td>
         </tr>
         }
     }

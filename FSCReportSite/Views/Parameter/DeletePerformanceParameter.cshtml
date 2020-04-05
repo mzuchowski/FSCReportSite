@@ -1,4 +1,4 @@
-﻿@model FSCReportSite.Models.PerformanceParameters
+﻿
 
 @{
     ViewData["Title"] = "DeletePerformanceParameter";
@@ -19,9 +19,11 @@
         <p><b>Współczynnik TP: </b>@value.Tlperformance</p>
         <p><b>Współczynnik TF: </b>@value.Tfperformance</p>
 
-        <form asp-action="DeletePerformanceParameter">
-            <input type="hidden" asp-for="@value.Id"/>
-            <input type="submit" value="Usuń" class="btn btn-default"/> |
+        <form asp-action="DeletePerformanceParameter" method="post">
+            <input type="hidden" name="idParam" asp-for="@value.Id" />
+            <input type="hidden" name="yearParam" asp-for="@value.YearOfDocument" />
+            <input type="hidden" name="monthParam" asp-for="@value.MonthOfDocument" />
+            <input type="submit" value="Usuń" class="btn btn-primary" /> |
         </form>
         <a asp-action="PerformanceParametersForm">Powrót do listy certyfikatów</a>
     }
