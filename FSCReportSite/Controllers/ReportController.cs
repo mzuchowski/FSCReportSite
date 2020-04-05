@@ -62,7 +62,7 @@ namespace FSCReportSite.Controllers
             }
             else
             {
-                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.ErrorMsg;
+                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.errorMsg;
                 return View("SolidBoardReportFSC");
             }
         }
@@ -91,7 +91,7 @@ namespace FSCReportSite.Controllers
             }
             else
             {
-                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.ErrorMsg;
+                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.errorMsg;
                 return View("CorrugatedBoardReportFSC");
             }
         }
@@ -119,7 +119,7 @@ namespace FSCReportSite.Controllers
             }
             else
             {
-                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.ErrorMsg;
+                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.errorMsg;
                 return View("SolidBoardReportCW");
             }
         }
@@ -148,7 +148,7 @@ namespace FSCReportSite.Controllers
             }
             else
             {
-                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.ErrorMsg;
+                @ViewData["Message"] = "Wystapił problem przy tworzeniu raportu: " + rep.errorMsg;
                 return View("CorrugatedBoardReportCW");
             }
         }

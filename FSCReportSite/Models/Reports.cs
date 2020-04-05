@@ -12,7 +12,7 @@ namespace FSCReportSite.Models
     {
         public string prodType = "";
         public string certType = "";
-        public string ErrorMsg = "";
+        public string errorMsg = "";
 
         private readonly DbContextOptions<ApplicationDbContext> _options;
         private readonly DbContextOptions<SourceDbContext> _sourceOptions;
@@ -125,7 +125,7 @@ namespace FSCReportSite.Models
                                 }
                                 catch (Exception ex)
                                 {
-                                    ErrorMsg = ex.Message;
+                                    errorMsg = ex.Message;
                                     return false;
                                 }
                             }
@@ -137,7 +137,7 @@ namespace FSCReportSite.Models
                     }
                     catch (Exception ex)
                     {
-                        ErrorMsg = ex.Message;
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -342,13 +342,13 @@ namespace FSCReportSite.Models
                     }
                     else
                     {
-                        ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                        errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
-                    ErrorMsg = ex.Message;
+                    errorMsg = ex.Message;
                     return false;
                 }
             }
@@ -461,19 +461,19 @@ namespace FSCReportSite.Models
                         }
                         else
                         {
-                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                             return false;
                         }
                     }
                     catch (Exception ex)
                     {
-                        ErrorMsg = ex.Message;
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
                 else
                 {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
             }
@@ -603,7 +603,7 @@ namespace FSCReportSite.Models
                 }
                 else
                 {
-                    ErrorMsg = "Produkt lub certyfikat są nieprawidłowe";
+                    errorMsg = "Produkt lub certyfikat są nieprawidłowe";
                     return false;
                 }
 
@@ -637,7 +637,7 @@ namespace FSCReportSite.Models
                             }
                             else
                             {
-                                ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                                 return false;
                             }
                             return true;
@@ -658,26 +658,26 @@ namespace FSCReportSite.Models
                             }
                             else
                             {
-                                ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                                 return false;
                             }
                             return true;
                         }
                         else
                         {
-                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                             return false;
                         }
                     }
                     catch (Exception ex)
                     {
-                        ErrorMsg = ex.Message;
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
                 else
                 {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
 
@@ -724,7 +724,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    ErrorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTp.DateYear + " miesiąc: " + purchasesTp.DateMonth);
+                                    errorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTp.DateYear + " miesiąc: " + purchasesTp.DateMonth);
                                     return false;
                                 }
 
@@ -740,7 +740,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                    errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                                     return false;
                                 }
                             }
@@ -775,7 +775,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    ErrorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTf.DateYear + " miesiąc: " + purchasesTf.DateMonth);
+                                    errorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTf.DateYear + " miesiąc: " + purchasesTf.DateMonth);
                                     return false;
                                 }
 
@@ -791,7 +791,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                                    errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                                     return false;
                                 }
 
@@ -801,19 +801,19 @@ namespace FSCReportSite.Models
                         }
                         else
                         {
-                            ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                            errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                             return false;
                         }
                     }
                     catch (Exception ex)
                     {
-                        ErrorMsg = ex.Message;
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
                 else
                 {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
 
@@ -855,7 +855,7 @@ namespace FSCReportSite.Models
                     }
                     else
                     {
-                        ErrorMsg = "Niepoprawny typ surowca lub certyfikatu - czyszczenie tabel";
+                        errorMsg = "Niepoprawny typ surowca lub certyfikatu - czyszczenie tabel";
                         return false;
                     }
                     
@@ -866,7 +866,7 @@ namespace FSCReportSite.Models
                 }
                 catch (Exception ex)
                 {
-                    ErrorMsg = ex.Message;
+                    errorMsg = ex.Message;
                     return false;
                 }
                 
@@ -889,12 +889,12 @@ namespace FSCReportSite.Models
                 }
                 else
                 {
-                    ErrorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
+                    errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
                 }
             }
             catch (Exception ex)
             {
-                ErrorMsg = ex.Message;
+                errorMsg = ex.Message;
             }
         }
 
@@ -987,18 +987,18 @@ namespace FSCReportSite.Models
                         }
                         else
                         {
-                            ErrorMsg = "Przesłany rodzaj produktu lub certyfikatu jest nieprawidłowy";
+                            errorMsg = "Przesłany rodzaj produktu lub certyfikatu jest nieprawidłowy";
                             return false;
                         }
                     }
                     catch (Exception ex)
                     {
-                        ErrorMsg = ex.Message;
+                        errorMsg = ex.Message;
                         return false;
                     }
                 else
                 {
-                    ErrorMsg = "Klasa DbContext ma wartość null";
+                    errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
 
@@ -1056,7 +1056,7 @@ namespace FSCReportSite.Models
                 }
                 catch (Exception ex)
                 {
-                    ErrorMsg = ex.Message;
+                    errorMsg = ex.Message;
                     return false;
                 }
 
@@ -1097,13 +1097,13 @@ namespace FSCReportSite.Models
                             }
                             catch (Exception ex)
                             {
-                                ErrorMsg = ex.Message;
+                                errorMsg = ex.Message;
                                 return false;
                             }
                         }
                         else
                         {
-                            ErrorMsg = "Klasa DbContext ma wartość null";
+                            errorMsg = "Klasa DbContext ma wartość null";
                             return false;
                         }
 
@@ -1165,18 +1165,18 @@ namespace FSCReportSite.Models
                             }
                             catch (Exception ex)
                             {
-                                ErrorMsg = ex.Message;
+                                errorMsg = ex.Message;
                                 return false;
                             }
                         }
                         else
                         {
-                            ErrorMsg = "Klasa DbContext ma wartość null";
+                            errorMsg = "Klasa DbContext ma wartość null";
                             return false;
                         }
 
                     default:
-                        ErrorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
+                        errorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
                         return false;
                 }
             }
@@ -1220,7 +1220,7 @@ namespace FSCReportSite.Models
                 }
                 else
                 {
-                    ErrorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
+                    errorMsg = "Przesłany rodzaj materiału jest nieprawidłowy";
                     return false;
                 }
             }

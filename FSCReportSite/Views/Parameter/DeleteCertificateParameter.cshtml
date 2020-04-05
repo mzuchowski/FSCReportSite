@@ -18,6 +18,7 @@
 
         <form asp-controller="Parameter" asp-action="DeleteCertificateParameter" method="post">
             <input type="hidden" name="idParam" value=@value.Id />
+            <input type="hidden" name="nameParam" value=@value.CertificateName />
             <input type="submit" value="Usuń" class="btn btn-primary" />
         </form>
         <a asp-action="CertificateParametersForm">Powrót do listy certyfikatów</a>

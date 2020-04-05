@@ -1,0 +1,46 @@
+﻿@model FSCReportSite.Models.PerformanceParameters
+
+@{
+    ViewData["Title"] = "AddPerformanceParameter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddPerformanceParameter</h2>
+<h3>@ViewData["Message"]</h3>
+<h4>PerformanceParameters</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPerformanceParameter">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="YearOfDocument" class="control-label"></label>
+                <input asp-for="YearOfDocument" class="form-control" />
+                <span asp-validation-for="YearOfDocument" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MonthOfDocument" class="control-label"></label>
+                <input asp-for="MonthOfDocument" class="form-control" />
+                <span asp-validation-for="MonthOfDocument" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tlperformance" class="control-label"></label>
+                <input asp-for="Tlperformance" class="form-control" placeholder="0,00" />
+                <span asp-validation-for="Tlperformance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tfperformance" class="control-label"></label>
+                <input asp-for="Tfperformance" class="form-control" placeholder="0,00" />
+                <span asp-validation-for="Tfperformance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="PerformanceParameterForm">Powrót do listy współczynników</a>
+</div>
+

@@ -23,7 +23,7 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpGet]
-        public ViewResult PerformanceParameterForm()
+        public ViewResult PerformanceParametersForm()
         {
             Parameters paramList = new Parameters(_options, _sourceOptions);
             var result = paramList.ShowPerfParam();
@@ -54,7 +54,7 @@ namespace FSCReportSite.Controllers
 
                 if (paramSum == 1)
                 {
-                    if (AddParam.CheckCertificateName(model.CertificateName) == true)
+                    if (AddParam.CheckCertName(model.CertificateName) == true)
                     {
                         AddParam.AddCertParam(model);
                         var result = AddParam.ShowCertParam();
@@ -80,6 +80,57 @@ namespace FSCReportSite.Controllers
             }
         }
 
+        [HttpGet]
+        public ViewResult AddPerformanceParameter()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult AddPerformanceParameter(PerformanceParameters model)
+        {
+            if (ModelState.IsValid)
+            {
+                var paramSum = model.Tlperformance + model.Tfperformance;
+                Parameters AddParam = new Parameters(_options, _sourceOptions);
+
+                if (paramSum <= 1)
+                {
+                    if (AddParam.CheckPerfDate(Convert.ToInt32(model.YearOfDocument), Convert.ToInt32(model.MonthOfDocument)) == true) //ZMIENIĆ NA SPRAWDZANIE ROKU I MIESIACA
+                    {
+                        var addStatus =AddParam.AddPerfParam(model);
+                        var result = AddParam.ShowPerfParam();
+
+                        if (addStatus)
+                        {
+                            @ViewData["Message"] = "Współczynnik wydajności dla Rok: " + model.YearOfDocument +
+                                                   " Miesiąc: " + model.MonthOfDocument + " został dodany pomyślnie!";
+                            return View("PerformanceParametersForm", result);
+                        }
+                        else
+                        {
+                            string error = AddParam.errorMsg;
+                            @ViewData["Message"] = "Wystąpił problem: " + error;
+                            return View("PerformanceParametersForm", result);
+                        }
+                    }
+                    else
+                    {
+                        @ViewData["Message"] = "Współczynnik dla podanego roku i miesiąca już istnieje!";
+                        return View();
+                    }
+                }
+                else
+                {
+                    @ViewData["Message"] = "Suma wartości współczynników nie może przekraczać 1";
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
 
         public ViewResult EditCertificateParameter(string certNameParam, float valueFscParam, float valueCwParam)
         {
@@ -92,25 +143,75 @@ namespace FSCReportSite.Controllers
             return View("EditCertificateParameter",currentCertParam);
         }
 
+        public ViewResult EditPerformanceParameter(int yearParam, int monthParam, float valueTpParam, float valueTfParam)
+        {
+            PerformanceParameters currentPerfParam = new PerformanceParameters
+            {
+                YearOfDocument = yearParam,
+                MonthOfDocument = monthParam,
+                Tlperformance = valueTpParam,
+                Tfperformance = valueTfParam
+            };
+            return View("EditPerformanceParameter", currentPerfParam);
+        }
+
         [HttpPost]
         public ViewResult SaveChangeCertificateParameter(CertificateParameters model)
         {
             var paramSum =model.ParameterFsc + model.ParameterCw;
 
-
             if (paramSum == 1)
             {
                 Parameters EditCertParam = new Parameters(_options, _sourceOptions);
-                EditCertParam.EditCertParam(model);
+                var editStatus =EditCertParam.EditCertParam(model);
                 var result = EditCertParam.ShowCertParam();
 
-                @ViewData["Message"] = "Certyfikat" + model.CertificateName + "został zaktualizowany pomyślnie";
-                return View("CertificateParametersForm", result);
+                if (editStatus)
+                {
+                    @ViewData["Message"] = "Certyfikat" + model.CertificateName + "został zaktualizowany pomyślnie";
+                    return View("CertificateParametersForm", result);
+                }
+                else
+                {
+                    string error = EditCertParam.errorMsg;
+                    @ViewData["Message"] = "Wystąpił problem: " + error;
+                    return View("CertificateParametersForm", result);
+                }
             }
             else
             {
                 @ViewData["Message"] = "Suma wartości współczynników FSC i CW musi być równa 1";
                 return View("EditCertificateParameter",model);
+            }
+        }
+
+        [HttpPost]
+        public ViewResult SaveChangePerformanceParameter(PerformanceParameters model)
+        {
+            var paramSum = model.Tlperformance + model.Tfperformance;
+
+            if (paramSum == 1)
+            {
+                Parameters EditPerfParam = new Parameters(_options, _sourceOptions);
+                var editStatus = EditPerfParam.EditPerfParam(model);
+                var result = EditPerfParam.ShowPerfParam();
+
+                if (editStatus)
+                {
+                    @ViewData["Message"] = "Certyfikat" + model.YearOfDocument + "." + model.MonthOfDocument + "został zaktualizowany pomyślnie";
+                    return View("PerformanceParametersForm", result);
+                }
+                else
+                {
+                    string error = EditPerfParam.errorMsg;
+                    @ViewData["Message"] = "Wystąpił problem: " + error;
+                    return View("PerformanceParametersForm", result);
+                }
+            }
+            else
+            {
+                @ViewData["Message"] = "Suma wartości współczynników FSC i CW musi być równa 1";
+                return View("EditPerformanceParameter", model);
             }
         }
 
@@ -133,22 +234,61 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpPost]
-        public ViewResult DeleteCertificateParameter(int idParam)
+        public ViewResult DeleteCertificateParameter(int idParam, string nameParam)
         {
             Parameters CertParam = new Parameters(_options,_sourceOptions);
-
-            using (var context = new ApplicationDbContext(_options))
-            {
-                var certToDel = context.CertificateParameters.Find(idParam);
-                context.CertificateParameters.Remove(certToDel);
-                context.SaveChanges();
-
-                @ViewData["Message"] = "Certyfikat " + certToDel.CertificateName + " został usunięty";
-            }
-       
+            var delParamStatus = CertParam.DeleteCertParam(idParam);
             var result = CertParam.ShowCertParam();
-           
-            return View("CertificateParametersForm", result);
+
+            if (delParamStatus)
+            {
+                @ViewData["Message"] = "Certyfikat " + nameParam + " został usunięty";
+                return View("CertificateParametersForm", result);
+            }
+            else
+            {
+                string error = CertParam.errorMsg;
+                @ViewData["Message"] = "Wystąpił problem: "+ error;
+                return View("CertificateParametersForm", result);
+            }
+        }
+
+        [HttpGet]
+        public ViewResult DeletePerformanceParameter(int id, int yearParam, int monthParam, float valueTpParam, float valueTfParam)
+        {
+            List<PerformanceParameters> value = new List<PerformanceParameters>()
+            {
+                new PerformanceParameters()
+                {
+                    Id = id,
+                    YearOfDocument = yearParam,
+                    MonthOfDocument = monthParam,
+                    Tlperformance = valueTpParam,
+                    Tfperformance = valueTpParam
+                }
+            };
+
+            return View("DeletePerformanceParameter", value);
+        }
+
+        [HttpPost]
+        public ViewResult DeleteCertificateParameter(int idParam, int yearParam, int monthParam)
+        {
+            Parameters PerfParam = new Parameters(_options, _sourceOptions);
+            var delParamStatus = PerfParam.DeletePerfParam(idParam);
+            var result = PerfParam.ShowPerfParam();
+
+            if (delParamStatus)
+            {
+                @ViewData["Message"] = "Certyfikat " + yearParam + "," + monthParam + " został usunięty";
+                return View("PerformanceParametersForm", result);
+            }
+            else
+            {
+                string error = PerfParam.errorMsg;
+                @ViewData["Message"] = "Wystąpił problem: " + error;
+                return View("PerformanceParametersForm", result);
+            }
         }
     }
 }
