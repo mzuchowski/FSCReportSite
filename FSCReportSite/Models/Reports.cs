@@ -150,6 +150,154 @@ namespace FSCReportSite.Models
 
         }
 
+        public bool AddRowsToReport(string prodTypeParam, string certTypeParam)
+        {
+            this.prodType = prodTypeParam;
+            this.certType = certTypeParam;
+
+            using (var context =new ApplicationDbContext(_options))
+            {
+                var minYear = context.Purchases.Min(p => p.YearOfDocument);
+                var maxYear = context.Purchases.Max(p => p.YearOfDocument);
+                int month = 1;
+
+                if (prodType == "TP" && certType == "FSC")
+                {
+                    try
+                    {
+                        while (minYear<=maxYear)
+                        {
+                            context.ReportFscTp.Add(new ReportFscTp()
+                            {
+                                DateYear = minYear,
+                                DateMonth = month,
+                                PurchasePoints = 0,
+                                SalesPoints = 0
+                            });
+                            context.SaveChanges();
+
+                            if (month < 12)
+                            {
+                                month++;
+                            }
+                            else
+                            {
+                                month = 1;
+                                minYear++;
+                            }
+                        }
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+                else if (prodType == "TP" && certType == "CW")
+                {
+                    try
+                    {
+                        while (minYear<=maxYear)
+                        {
+                            context.ReportCwTp.Add(new ReportCwTp()
+                            {
+                                DateYear = minYear,
+                                DateMonth = month,
+                                PurchasePoints = 0,
+                                SalesPoints = 0
+                            });
+                            context.SaveChanges();
+
+                            if (month < 12)
+                            {
+                                month++;
+                            }
+                            else
+                            {
+                                month = 1;
+                                minYear++;
+                            }
+                        }
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+                else if (prodType == "TF" && certType == "FSC")
+                {
+                    try
+                    {
+                        while (minYear <= maxYear)
+                        {
+                            context.ReportFscTf.Add(new ReportFscTf()
+                            {
+                                DateYear = minYear,
+                                DateMonth = month,
+                                PurchasePoints = 0,
+                                SalesPoints = 0
+                            });
+                            context.SaveChanges();
+
+                            if (month < 12)
+                            {
+                                month++;
+                            }
+                            else
+                            {
+                                month = 1;
+                                minYear++;
+                            }
+                        }
+
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+                else if (prodType == "TF" && certType == "CW")
+                {
+                    try
+                    {
+                        while (minYear <= maxYear)
+                        {
+                            context.ReportCwTf.Add(new ReportCwTf()
+                            {
+                                DateYear = minYear,
+                                DateMonth = month,
+                                PurchasePoints = 0,
+                                SalesPoints = 0
+                            });
+                            context.SaveChanges();
+
+                            if (month < 12)
+                            {
+                                month++;
+                            }
+                            else
+                            {
+                                month = 1;
+                                minYear++;
+                            }
+                        }
+
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool AddDataToReport(string prodTypeParam, string certTypeParam)
         {
             this.prodType = prodTypeParam;
@@ -192,13 +340,12 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            context.ReportFscTp.Add(new ReportFscTp()
-                            {
-                                DateYear = report.year,
-                                DateMonth = report.month,
-                                PurchasePoints = report.purchasePoints,
-                                SalesPoints = report.salePoints
-                            });
+                            
+                            int test = Convert.ToInt32(report.purchasePoints);
+
+                            var recordToUpd = context.ReportFscTp.Where(s => s.DateYear == report.year && s.DateMonth == report.month).ToList();
+                            recordToUpd.ForEach(p => p.PurchasePoints = test);
+                            recordToUpd.ForEach(p => p.SalesPoints = report.salePoints);
                             context.SaveChanges();
                         }
 
@@ -724,7 +871,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    errorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTp.DateYear + " miesiąc: " + purchasesTp.DateMonth);
+                                    errorMsg = ("Nie odnaleziono współczynnika wydajności dla: Rok: " + purchasesTp.DateYear + " miesiąc: " + purchasesTp.DateMonth);
                                     return false;
                                 }
 
@@ -775,7 +922,7 @@ namespace FSCReportSite.Models
                                 }
                                 else
                                 {
-                                    errorMsg = ("Nie odnaleziono współczynnikA wydajności dla: Rok: " + purchasesTf.DateYear + " miesiąc: " + purchasesTf.DateMonth);
+                                    errorMsg = ("Nie odnaleziono współczynnika wydajności dla: Rok: " + purchasesTf.DateYear + " miesiąc: " + purchasesTf.DateMonth);
                                     return false;
                                 }
 
@@ -836,7 +983,7 @@ namespace FSCReportSite.Models
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTf");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
-                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
+                    //context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
                     if (prodType == "TP" && certType == "FSC")
                     {
                         context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTp");

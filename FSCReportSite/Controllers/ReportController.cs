@@ -44,11 +44,14 @@ namespace FSCReportSite.Controllers
             Reports rep = new Reports(_options, _sourceOptions);
             if (
                 rep.ClearTables("TP","FSC") == true &&
+                
+
                 rep.ImportData() == true &&
                 rep.MaterialAndProductUpdate("TP") == true &&
                 rep.GroupPurchasesAndSales("TP") == true &&
                 rep.AddParameters("TP", "FSC") == true &&
                 rep.CalculatePurchuasePoints("TP", "FSC") == true &&
+                rep.AddRowsToReport("TP", "FSC") == true &&
                 rep.AddDataToReport("TP", "FSC") == true &&
                 rep.CalculateDifference("TP", "FSC") ==true &&
                 rep.AddDifferenceFromPast("TP", "FSC") == true &&
