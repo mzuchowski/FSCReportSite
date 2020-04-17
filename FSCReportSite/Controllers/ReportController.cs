@@ -81,6 +81,7 @@ namespace FSCReportSite.Controllers
                 rep.GroupPurchasesAndSales("TF") == true &&
                 rep.AddParameters("TF", "FSC") == true &&
                 rep.CalculatePurchuasePoints("TF", "FSC") == true &&
+                rep.AddRowsToReport("TP", "FSC") == true &&
                 rep.AddDataToReport("TF", "FSC") == true &&
                 rep.CalculateDifference("TF", "FSC") == true &&
                 rep.AddDifferenceFromPast("TF", "FSC") == true &&
@@ -109,6 +110,7 @@ namespace FSCReportSite.Controllers
                 rep.GroupPurchasesAndSales("TP") == true &&
                 rep.AddParameters("TP", "CW") == true &&
                 rep.CalculatePurchuasePoints("TP", "CW") == true &&
+                rep.AddRowsToReport("TP", "CW") == true &&
                 rep.AddDataToReport("TP", "CW") == true &&
                 rep.CalculateDifference("TP", "CW") == true &&
                 rep.AddDifferenceFromPast("TP", "CW") == true &&
@@ -138,6 +140,7 @@ namespace FSCReportSite.Controllers
                 rep.GroupPurchasesAndSales("TF") == true &&
                 rep.AddParameters("TF", "CW") == true &&
                 rep.CalculatePurchuasePoints("TF", "CW") == true &&
+                rep.AddRowsToReport("TF", "CW") == true &&
                 rep.AddDataToReport("TF", "CW") == true &&
                 rep.CalculateDifference("TF", "CW") == true &&
                 rep.AddDifferenceFromPast("TF", "CW") == true &&

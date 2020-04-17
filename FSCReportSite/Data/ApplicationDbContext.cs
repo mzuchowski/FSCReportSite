@@ -9,19 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FSCReportSite.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             :base(options)
         { 
         }
-        public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<Purchases> Purchases { get; set; }
         public virtual DbSet<ReportFscTf> ReportFscTf { get; set; }
         public virtual DbSet<ReportFscTp> ReportFscTp { get; set; }
@@ -34,18 +27,6 @@ namespace FSCReportSite.Data
         public virtual DbSet<CertificateParameters> CertificateParameters { get; set; }
         public virtual DbSet<PerformanceParameters> PerformanceParameters { get; set; }
         public virtual DbSet<Sales> Sales { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AspNetUserLogins>()
-                .HasKey(c => new { c.LoginProvider, c.ProviderKey });
-
-            modelBuilder.Entity<AspNetUserRoles>()
-                .HasKey(c => new { c.UserId, c.RoleId });
-
-            modelBuilder.Entity<AspNetUserTokens>()
-                .HasKey(c => new { c.UserId, c.LoginProvider, c.Name });
-        }
 
     }
 }

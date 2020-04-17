@@ -40,7 +40,7 @@ namespace FSCReportSite
             services.AddDbContext<SourceDbContext>(sourceOptions =>
                 sourceOptions.UseSqlServer(
                     Configuration.GetConnectionString("SourceConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

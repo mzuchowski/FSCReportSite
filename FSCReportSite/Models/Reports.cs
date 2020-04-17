@@ -61,6 +61,12 @@ namespace FSCReportSite.Models
             }
         }
 
+       /* public List<Purchases> ShowCustomerPurchReport()
+        {
+            using (var context = new Appl)
+        }
+        */
+
         public bool ImportData()
         {
             using (var sourceContext = new SourceDbContext(_sourceOptions))
@@ -340,11 +346,8 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            
-                            int test = Convert.ToInt32(report.purchasePoints);
-
                             var recordToUpd = context.ReportFscTp.Where(s => s.DateYear == report.year && s.DateMonth == report.month).ToList();
-                            recordToUpd.ForEach(p => p.PurchasePoints = test);
+                            recordToUpd.ForEach(p => p.PurchasePoints = report.purchasePoints);
                             recordToUpd.ForEach(p => p.SalesPoints = report.salePoints);
                             context.SaveChanges();
                         }
@@ -385,13 +388,9 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            context.ReportCwTp.Add(new ReportCwTp()
-                            {
-                                DateYear = report.year,
-                                DateMonth = report.month,
-                                PurchasePoints = report.purchasePoints,
-                                SalesPoints = report.salePoints
-                            });
+                            var recordToUpd = context.ReportCwTp.Where(s => s.DateYear == report.year && s.DateMonth == report.month).ToList();
+                            recordToUpd.ForEach(p => p.PurchasePoints = report.purchasePoints);
+                            recordToUpd.ForEach(p => p.SalesPoints = report.salePoints);
                             context.SaveChanges();
                         }
 
@@ -430,13 +429,9 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            context.ReportFscTf.Add(new ReportFscTf()
-                            {
-                                DateYear = report.year,
-                                DateMonth = report.month,
-                                PurchasePoints = report.purchasePoints,
-                                SalesPoints = report.salePoints
-                            });
+                            var recordToUpd = context.ReportFscTf.Where(s => s.DateYear == report.year && s.DateMonth == report.month).ToList();
+                            recordToUpd.ForEach(p => p.PurchasePoints = report.purchasePoints);
+                            recordToUpd.ForEach(p => p.SalesPoints = report.salePoints);
                             context.SaveChanges();
                         }
 
@@ -475,13 +470,9 @@ namespace FSCReportSite.Models
 
                         foreach (var report in reportData)
                         {
-                            context.ReportCwTf.Add(new ReportCwTf()
-                            {
-                                DateYear = report.year,
-                                DateMonth = report.month,
-                                PurchasePoints = report.purchasePoints,
-                                SalesPoints = report.salePoints
-                            });
+                            var recordToUpd = context.ReportCwTf.Where(s => s.DateYear == report.year && s.DateMonth == report.month).ToList();
+                            recordToUpd.ForEach(p => p.PurchasePoints = report.purchasePoints);
+                            recordToUpd.ForEach(p => p.SalesPoints = report.salePoints);
                             context.SaveChanges();
                         }
 
@@ -983,7 +974,8 @@ namespace FSCReportSite.Models
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTf");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE Sales");
-                    //context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
+                    context.Database.ExecuteSqlCommand("TRUNCATE TABLE Purchases");
+
                     if (prodType == "TP" && certType == "FSC")
                     {
                         context.Database.ExecuteSqlCommand("TRUNCATE TABLE ReportFscTp");
@@ -1002,10 +994,9 @@ namespace FSCReportSite.Models
                     }
                     else
                     {
-                        errorMsg = "Niepoprawny typ surowca lub certyfikatu - czyszczenie tabel";
-                        return false;
+                        errorMsg = "Żaden raport nie został usunięty";
+                        return true;
                     }
-                    
                     
                     context.SaveChanges();
 
