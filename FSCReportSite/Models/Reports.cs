@@ -61,12 +61,6 @@ namespace FSCReportSite.Models
             }
         }
 
-       /* public List<Purchases> ShowCustomerPurchReport()
-        {
-            using (var context = new Appl)
-        }
-        */
-
         public bool ImportData()
         {
             using (var sourceContext = new SourceDbContext(_sourceOptions))

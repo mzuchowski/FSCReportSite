@@ -29,19 +29,8 @@ namespace FSCReportSite.Controllers
         {
             return View();
         }
+
         [Authorize]
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page."; // FUNCTION TO DELETE
-
-            return View();
-        }
-
-        public ViewResult CustomerOrdersReport()
-        {
-                return View();
-        }
-
         public ViewResult CertificateParametersForm()
         {
             return View();
@@ -64,10 +53,6 @@ namespace FSCReportSite.Controllers
         {
             return View();
         }
-
-        
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
