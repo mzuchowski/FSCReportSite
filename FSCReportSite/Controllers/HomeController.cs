@@ -49,11 +49,6 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        public ViewResult PerformanceFactorForm()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
