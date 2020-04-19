@@ -30,12 +30,6 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        [Authorize]
-        public ViewResult CertificateParametersForm()
-        {
-            return View();
-        }
-
         public ViewResult ManageAccounts()
         {
 

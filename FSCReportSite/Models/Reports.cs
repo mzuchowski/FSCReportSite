@@ -190,6 +190,7 @@ namespace FSCReportSite.Models
                     }
                     catch (Exception ex)
                     {
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -222,6 +223,7 @@ namespace FSCReportSite.Models
                     }
                     catch (Exception ex)
                     {
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -255,6 +257,7 @@ namespace FSCReportSite.Models
                     }
                     catch (Exception ex)
                     {
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }
@@ -288,6 +291,7 @@ namespace FSCReportSite.Models
                     }
                     catch (Exception ex)
                     {
+                        errorMsg = ex.Message;
                         return false;
                     }
                 }

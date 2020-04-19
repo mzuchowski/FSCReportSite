@@ -19,11 +19,6 @@ namespace FSCReportSite.Controllers
             this.signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -39,13 +34,19 @@ namespace FSCReportSite.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "home");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError(string.Empty, "Nieprawidłowa próba logowania");
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }
