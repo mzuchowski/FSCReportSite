@@ -10,22 +10,13 @@
     <body>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
     
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="color:white">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                <span>Zalogowany jako:</span>
-                <center><h2>@UserManager.GetUserName(User)</h2></center>
-
-            </li>
-            <li>
-                <a data-toggle="tooltip" data-placement="top" title="Wyloguj" asp-controller="Home" asp-action="Logout">
-                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                </a>
-
+                 <p>Zalogowano jako: <b>@UserManager.GetUserName(User)</b></p>
             </li>
         </ul>
-        
-        <button type="submit" class="btn btn-info btn-sm">Logout</button>
+
+        <button type="submit" class="btn btn-info btn-sm">Wyloguj</button>
     </form>
    </body>
 }
