@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager;
 
 <!DOCTYPE html>
 <html>
@@ -46,30 +47,26 @@
                     <br />
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        @if (signInManager.IsSignedIn(User))
+                        {
                         <div class="menu_section">
                             <h3>FSC MIX CREDIT</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-desktop"></i> Konto punktowe FSC <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-bar-chart"></i> Konto punktowe FSC <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-controller="Report" asp-action="SolidBoardReportFSC">Tektura Lita</a></li>
                                         <li><a asp-controller="Report" asp-action="CorrugatedBoardReportFsc">Tektura Falista</a></li>
                                     </ul>
                                 </li>
-                            <!--<li>
-                                    <a><i class="fa fa-edit"></i> Pozostałe raporty<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                    <li><a asp-controller="Report" asp-action="CustomerOrdersReport">Sprzedaż dla klienta</a></li>
-                                </ul>
-                                </li>
-                            -->
                             </ul>
                         </div>
+
                         <div class="menu_section">
                             <h3>FSC CONTROL WOOD</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i> Konto punktowe CW <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-bar-chart"></i> Konto punktowe CW <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-controller="Report" asp-action="SolidBoardReportCW">Tektura Lita</a></li>
                                         <li><a asp-controller="Report" asp-action="CorrugatedBoardReportCW">Tektura Falista</a></li>
@@ -81,7 +78,7 @@
                             <h3>USTAWIENIA RAPORTÓW</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i>Parametry<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-cogs"></i>Parametry<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-controller="Parameter" asp-action="PerformanceParametersForm">Współczynnik wydajności</a></li>
                                         <li><a asp-controller="Parameter" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
@@ -93,7 +90,7 @@
                             <h3>USTAWIENIA</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i>Konta<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-user"></i>Konta<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a asp-controller="Home" asp-action="MyAccount">Moje konto</a></li>
                                         <li><a asp-controller="Home" asp-action="ManageAccounts">Zarządzaj kontami</a></li>
@@ -101,6 +98,7 @@
                                 </li>
                             </ul>
                         </div>
+                        }
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons 

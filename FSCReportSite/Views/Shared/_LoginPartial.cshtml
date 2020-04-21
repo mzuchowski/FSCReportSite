@@ -8,7 +8,7 @@
 @if (SignInManager.IsSignedIn(User) ) //&& User.IsInRole("Admin")
 {
     <body>
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+    <form asp-controller="Account" asp-action="Logout" method="post">
     
         <ul class="nav navbar-nav navbar-right" style="color:white">
             <li>

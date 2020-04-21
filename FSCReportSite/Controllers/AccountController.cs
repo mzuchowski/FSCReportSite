@@ -73,8 +73,9 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }
