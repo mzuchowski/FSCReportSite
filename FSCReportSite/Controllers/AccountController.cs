@@ -47,7 +47,6 @@ namespace FSCReportSite.Controllers
         public IActionResult Register()
         {
             return View();
-
         }
 
         [HttpPost]
@@ -77,6 +76,12 @@ namespace FSCReportSite.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ViewResult ManageAccounts()
+        {
+            var user = userManager.Users;
+            return View(user);
         }
     }
 }

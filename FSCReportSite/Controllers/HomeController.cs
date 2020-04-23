@@ -30,13 +30,6 @@ namespace FSCReportSite.Controllers
             return View();
         }
 
-        public ViewResult ManageAccounts()
-        {
-
-            ViewData["Message"] = "Your contact page.";
-            return View();
-        }
-
         public ViewResult MyAccount()
         {
             
