@@ -6,26 +6,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>RoleList</h2>
-
-<form>
-    <button type="submit" class="btn btn-info btn-sm" asp-controller="Administration" asp-action="AddRole">Dodaj rolę</button>
-</form>
-
 <body>
-@if (Model.Any())
+    <h2>RoleList</h2>
+
+    <form>
+        <button type="submit" class="btn btn-info btn-sm" asp-controller="Administration" asp-action="AddRole">Dodaj rolę</button>
+    </form>
+
+
+    @if (Model.Any())
 {
-<table class="table  table-striped table-bordered jambo_table">
-    <thead>
-        <tr>
-            <th>Nazwa roli</th>
-            <th>ID</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @try
+    <table class="table  table-striped table-bordered jambo_table">
+        <thead>
+            <tr>
+                <th>Nazwa roli</th>
+                <th>ID</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @try
     {
         foreach (var role in Model)
         {
@@ -33,21 +35,21 @@
                 <td>@role.Name</td>
                 <td>@role.Id</td>
                 <td>@Html.ActionLink("Użytkownicy", "ManageRoles", "Administration")</td>
+                <td>@Html.ActionLink("Edytuj", "EditRole", "Administration", new{id = role.Id})</td>
                 <td>@Html.ActionLink("Usuń", "ManageRoles", "Administration", new {@style = "color: red"})</td>
-                <!--certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw -->
             </tr>
         }
     }
     catch
     {
-    
-    }
-    </tbody>
-</table>
-}
-else
-{
 
+    }
+        </tbody>
+    </table>
 }
+    else
+    {
+
+    }
 </body>
 

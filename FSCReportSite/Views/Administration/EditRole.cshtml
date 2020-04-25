@@ -1,0 +1,68 @@
+﻿@model EditRoleViewModel
+
+@{
+    ViewData["Title"] = "EditRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+<h1>Edycja roli</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Administration" asp-action="EditRole" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" readonly />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Users.Any())
+{
+    <table class="table  table-striped table-bordered jambo_table">
+        <thead>
+        <tr>
+            <th>Użytkownik</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @try
+        {
+            foreach (var users in Model.Users)
+            {
+                <tr>
+                    <td>@users</td>
+                    <td>@Html.ActionLink("Użytkownicy", "ManageRoles", "Administration")</td>
+                    <td>@Html.ActionLink("Edytuj", "ManageRoles", "Administration")</td>
+                    <td>@Html.ActionLink("Usuń", "ManageRoles", "Administration", new {@style = "color: red"})</td>
+                </tr>
+            }
+        }
+        catch
+        {
+    
+        }
+        </tbody>
+    </table>
+}
+else
+{
+
+}
+</body>
