@@ -8,8 +8,9 @@
 
 <body>
     <h2>RoleList</h2>
+    <h3>@ViewData["Message"]</h3>    
 
-    <form>
+<form>
         <button type="submit" class="btn btn-info btn-sm" asp-controller="Administration" asp-action="AddRole">Dodaj rolę</button>
     </form>
 
@@ -49,7 +50,7 @@
 }
     else
     {
-
+        <h1>Brak przypisanych użytkowników</h1>
     }
 </body>
 

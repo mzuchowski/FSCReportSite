@@ -445,7 +445,7 @@ namespace FSCReportSite.Models
                                   p.Key.DateMonth,
                                   sumOfPurchasePoints = p.Sum(o => o.PurchasePointsCw)
                               }).ToList();
-
+                         
                         var salesTfData = context.TotalSalesTf.Where(p => p.CertificatName == "FSC Controlled Wood").GroupBy(p =>
                             new { p.DateMonth, p.DateYear }).Select(p =>
                             new
@@ -963,10 +963,8 @@ namespace FSCReportSite.Models
 
             using (var context = new ApplicationDbContext(_options))
             {
-                
                 try
                 {
-                    
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTp");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalPurchasesTf");
                     context.Database.ExecuteSqlCommand("TRUNCATE TABLE TotalSalesTp");
@@ -1009,7 +1007,7 @@ namespace FSCReportSite.Models
             }
         }
 
-        public void CreateReport(string prodTypeParam, string certTypeParam) //Aktualnie nie używane --DODANIE REKORDÓW, TWORZENIE RAPORTU
+      /*  public void CreateReport(string prodTypeParam, string certTypeParam) //Aktualnie nie używane --DODANIE REKORDÓW, TWORZENIE RAPORTU
         {
             this.prodType = prodTypeParam;
             this.certType = certTypeParam;
@@ -1033,6 +1031,7 @@ namespace FSCReportSite.Models
                 errorMsg = ex.Message;
             }
         }
+        */
 
         public bool AddDifferenceFromPast(string prodTypeParam, string certTypeParam)
         {
