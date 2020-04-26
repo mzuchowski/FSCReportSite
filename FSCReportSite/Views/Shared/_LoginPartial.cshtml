@@ -1,18 +1,18 @@
 
 @using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
 
 
-@if (SignInManager.IsSignedIn(User) ) //&& User.IsInRole("Admin")
+@if (signInManager.IsSignedIn(User) ) //&& User.IsInRole("Admin")
 {
     <body>
     <form asp-controller="Account" asp-action="Logout" method="post">
     
         <ul class="nav navbar-nav navbar-right" style="color:white">
             <li>
-                 <p>Zalogowano jako: <b>@UserManager.GetUserName(User)</b></p>
+                 <p>Zalogowano jako: <b>@userManager.GetUserName(User)</b></p>
             </li>
         </ul>
 

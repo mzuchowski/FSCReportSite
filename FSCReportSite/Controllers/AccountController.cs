@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace FSCReportSite.Controllers
 {
@@ -78,10 +79,48 @@ namespace FSCReportSite.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public ViewResult ManageAccounts()
         {
             var user = userManager.Users;
             return View(user);
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, model.CurentPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View();
+                }
+
+                await signInManager.RefreshSignInAsync(user);
+                ViewData["Message"] = "Hasło zostało zmienione";
+                return View(model);
+            }
+
+            return View(model);
         }
     }
 }
