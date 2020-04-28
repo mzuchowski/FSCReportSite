@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FSCReportSite.Data;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,7 +41,11 @@ namespace FSCReportSite
             services.AddDbContext<SourceDbContext>(sourceOptions =>
                 sourceOptions.UseSqlServer(
                     Configuration.GetConnectionString("SourceConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                    {
+                        options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+                    })
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

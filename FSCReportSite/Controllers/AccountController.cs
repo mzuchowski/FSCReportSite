@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FSCReportSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace FSCReportSite.Controllers
@@ -80,7 +81,7 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpGet]
-        public ViewResult ManageAccounts()
+        public IActionResult ManageAccounts()
         {
             var user = userManager.Users;
             return View(user);
@@ -122,5 +123,96 @@ namespace FSCReportSite.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email)
+        {
+            if (email == null)
+            {
+                ModelState.AddModelError("","Brak nazwy uzytkownika");
+            }
+            else
+            {
+                ViewBag.userEmail= email;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if(user != null)
+                {
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var result = await userManager.ResetPasswordAsync(user, token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        ViewData["Message"] = $"Hasło dla konta {model.Email} zostało zresetowane pomyślnie";
+                        ViewBag.UserEmail = model.Email;
+                        return View("ResetPassword");
+                    }
+
+                    foreach (var error in result.Errors )
+                    {
+                        ModelState.AddModelError("",error.Description);
+                    }
+                    return View(model);
+                }
+
+                return View("ResetPassword");
+            }
+
+            ViewBag.UserEmail = model.Email;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteUser(string id, string userEmail)
+        {
+            List<AspNetUsers> users = new List<AspNetUsers>()
+            {
+                new AspNetUsers()
+                {
+                    Id = id,
+                    Email = userEmail
+                }
+            };
+            return View("DeleteUser", users);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"Użytkownik o podanym ID: {id} nie został odnaleziony";
+                return View("_NotFound");
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ManageAccounts");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View("ManageAccounts");
+            }
+            
+        }
+
+
     }
 }

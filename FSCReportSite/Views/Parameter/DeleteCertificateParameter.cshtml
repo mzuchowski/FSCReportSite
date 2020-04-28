@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite
+@model List<CertificateParameters>
 
 @{
     ViewData["Title"] = "View";
@@ -10,7 +11,7 @@
 <h3>Czy na pewno chesz usunąć ten certyfikat?</h3>
 <div>
     <h4>Informacje o certyfikacie: </h4>
-    @foreach (CertificateParameters value in Model)
+    @foreach (var value in Model)
     {
         <p><b>Nazwa certyfikatu: </b>@value.CertificateName</p>
         <p><b>Parametr FSC: </b>@value.ParameterFsc</p>

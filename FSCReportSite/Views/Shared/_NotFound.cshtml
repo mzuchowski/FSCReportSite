@@ -2,8 +2,8 @@
 @{
     ViewData["Title"] = "Nie odnaleziono";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.ErrorMessage = "";
+    var errorMessage =ViewBag.ErrorMessage;
 }
 
-<h2>@ViewBag.ErrorMessage</h2>
+<h2>@errorMessage</h2>
 

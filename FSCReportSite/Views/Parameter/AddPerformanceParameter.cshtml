@@ -1,10 +1,13 @@
 ﻿@model FSCReportSite.Models.PerformanceParameters
 
 @{
-    ViewData["Title"] = "AddPerformanceParameter";
+    ViewBag.Title = "Dodawanie parametru wydajności";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
 <h1>Dodawanie współczynnika wydajności</h1>
 <h2>@ViewData["Message"]</h2>
 <h3>PerformanceParameters</h3>
@@ -43,4 +46,5 @@
 <div>
     <a asp-action="PerformanceParametersForm">Powrót do listy współczynników</a>
 </div>
+</body>
 
