@@ -1,12 +1,19 @@
 ﻿@model List<AspNetUsers>
 
 @{
-    ViewData["Title"] = "DeleteUser";
+    ViewData["Title"] = "Usuwanie użytkownika";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 
+<body>
+<h1>Usuwanie użytkownika</h1>
+<br>
+<h2>@ViewData["Message"]</h2>
+<br>
 <h3>Czy na pewno chesz usunąć tego użytkownika?</h3>
 <hr />
 <div>
@@ -22,6 +29,5 @@
         </form>
         <a asp-action="ManageAccounts">Powrót do listy użytkowników</a>
     }
-
 </div>
 </body>

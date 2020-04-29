@@ -1,18 +1,19 @@
 ﻿@model RegisterViewModel
 
 @{
-    ViewBag.Title = "Rejestracja użytkownika";
+    ViewBag.Title = "Dodawanie użytkownika";
     Layout = "_Layout";
 }
 
 <head>
-    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"]</title>
 </head>
 
 <body>
-    <h2>@ViewData["Title"]</h2>
-    <h3>@ViewData["Message"]</h3>
-
+    <h1>Dodawanie użytkownika</h1>
+    <br>
+    <h2>@ViewData["Message"]</h2>
+    <hr />
     <div class="row">
         <div class="col-md-12">
             <form method="post">

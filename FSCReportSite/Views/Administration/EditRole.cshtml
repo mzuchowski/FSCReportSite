@@ -2,13 +2,19 @@
 @model EditRoleViewModel
 
 @{
-    ViewData["Title"] = "EditRole";
+    ViewData["Title"] = "Zarzadzanie rolą";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
-    <h1>Edycja roli</h1>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 
+<body>
+    <h1>Zarządzanie rolą</h1>
+    <br>
+    <h2>@ViewData["Message"]</h2>
+    <hr />
     <div class="row">
         <div class="col-md-4">
             <form asp-controller="Administration" asp-action="EditRole" method="post">
@@ -32,9 +38,6 @@
         </div>
     </div>
     <br>
-
-    
-  
 
     @if (Model.Users.Any())
     {

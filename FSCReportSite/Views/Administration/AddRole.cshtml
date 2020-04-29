@@ -1,31 +1,32 @@
 ﻿@model AddRoleViewModel
 
 @{
-    ViewData["Title"] = "Tworzenie nowej roli";
+    ViewData["Title"] = "Dodawanie nowej roli";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <head>
-    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"]</title>
 </head>
 
 <body>
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
-
-<div class="row">
-    <div class="col-md-12">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoleName">Nazwa roli</label>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Utwórz rolę</button>
-        </form>
+    <h1>Dodawanie nowej roli</h1>
+    <br>
+    <h2>@ViewData["Message"]</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="RoleName">Nazwa roli</label>
+                    <input asp-for="RoleName" class="form-control" />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Utwórz rolę</button>
+            </form>
+        </div>
     </div>
-</div>
 </body>
 
 

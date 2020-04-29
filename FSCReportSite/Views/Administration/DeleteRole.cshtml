@@ -5,8 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 
+<body>
+    <h1>Usuwanie roli</h1>
+    <br>
+    <h2>@ViewData["Message"]</h2>
+    <hr />
     <h3>Czy na pewno chesz usunąć tę rolę?</h3>
     <hr />
     <div>
@@ -22,7 +29,6 @@
             </form>
             <a asp-action="ManageRoles">Powrót do listy ról</a>
         }
-
     </div>
 </body>
 
