@@ -24,7 +24,6 @@
                 <th>ID</th>
                 <th></th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -35,9 +34,8 @@
             <tr>
                 <td>@role.Name</td>
                 <td>@role.Id</td>
-                <td>@Html.ActionLink("Użytkownicy", "ManageRoles", "Administration")</td>
                 <td>@Html.ActionLink("Edytuj", "EditRole", "Administration", new{id = role.Id})</td>
-                <td>@Html.ActionLink("Usuń", "ManageRoles", "Administration", new {@style = "color: red"})</td>
+                <td>@Html.ActionLink("Usuń", "DeleteRole", "Administration", new {id= role.Id, roleName =role.Name},new {@style = "color: red"})</td>
             </tr>
         }
     }

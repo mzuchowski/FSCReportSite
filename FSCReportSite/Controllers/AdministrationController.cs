@@ -211,6 +211,48 @@ namespace FSCReportSite.Controllers
 
         }
 
-    
-}
+        [HttpGet]
+        public IActionResult DeleteRole(string id, string roleName)
+        {
+            List<AspNetRoles> roles = new List<AspNetRoles>()
+            {
+                new AspNetRoles()
+                {
+                    Id = id,
+                    Name = roleName
+                }
+            };
+            return View("DeleteRole", roles);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Rola o podanym ID: {id} nie została odnaleziona";
+                return View("_NotFound");
+            }
+            else
+            {
+                var result = await roleManager.DeleteAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ManageRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View("ManageRoles");
+                
+            }
+
+        }
+    }
 }

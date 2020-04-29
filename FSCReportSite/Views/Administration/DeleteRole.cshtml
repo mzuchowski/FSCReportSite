@@ -1,0 +1,28 @@
+﻿@model List<AspNetRoles>
+
+@{
+    ViewData["Title"] = "Usuwanie roli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+
+    <h3>Czy na pewno chesz usunąć tę rolę?</h3>
+    <hr />
+    <div>
+        <h4>Informacje o roli: </h4>
+        @foreach (var role in Model)
+        {
+            <p><b>ID: </b>@role.Id</p>
+            <p><b>Nazwa: </b>@role.Name</p>
+
+            <form asp-controller="Administration" asp-action="DeleteRole" method="post">
+                <input type="hidden" value=@role.Id />
+                <input type="submit" value="Usuń" class="btn btn-primary" />
+            </form>
+            <a asp-action="ManageRoles">Powrót do listy ról</a>
+        }
+
+    </div>
+</body>
+
