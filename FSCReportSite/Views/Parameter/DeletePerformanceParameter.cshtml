@@ -1,17 +1,22 @@
 ﻿
 
 @{
-    ViewData["Title"] = "DeletePerformanceParameter";
+    ViewData["Title"] = "Usuwanie współczynnika wydajności";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 
-<h2>DeletePerformanceParameter</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-
-<h4>PerformanceParameters</h4>
+<body>
+<h1>Usuwanie współczynnika wydajności</h1>
+<br>
+<h2>@ViewData["Message"]</h2>
+<hr />
+<h3>Czy na pewno chesz usunąć te współczynniki?</h3>
+<br/>
 <div>
-    <h4>Informacje o certyfikacie: </h4>
+    <h3>Informacje o współczynnikach: </h3>
     @foreach (PerformanceParameters value in Model)
     {
         <p><b>Rok: </b>@value.YearOfDocument</p>
@@ -23,8 +28,10 @@
             <input type="hidden" name="idParam" asp-for="@value.Id" />
             <input type="hidden" name="yearParam" asp-for="@value.YearOfDocument" />
             <input type="hidden" name="monthParam" asp-for="@value.MonthOfDocument" />
+            <br />
             <input type="submit" value="Usuń" class="btn btn-primary" />
+            <a asp-action="PerformanceParametersForm" class="btn btn-primary" style="width:auto">Anuluj</a>
         </form>
-        <a asp-action="PerformanceParametersForm">Powrót do listy certyfikatów</a>
     }
 </div>
+</body>

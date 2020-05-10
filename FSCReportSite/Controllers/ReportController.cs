@@ -43,9 +43,7 @@ namespace FSCReportSite.Controllers
         {
             Reports rep = new Reports(_options, _sourceOptions);
             if (
-                rep.ClearTables("TP","FSC") == true &&
-                
-
+                rep.ClearTables("TP","FSC") == true &
                 rep.ImportData() == true &&
                 rep.MaterialAndProductUpdate("TP") == true &&
                 rep.GroupPurchasesAndSales("TP") == true &&

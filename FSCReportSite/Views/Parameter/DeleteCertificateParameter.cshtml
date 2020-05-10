@@ -2,15 +2,22 @@
 @model List<CertificateParameters>
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Usuwanie certyfiaktu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 
-<h2>View</h2>
-
+<body>
+<h1>Usuwanie certyfikatu</h1>
+<br>
+<h2>@ViewData["Message"]</h2>
+<hr />
 <h3>Czy na pewno chesz usunąć ten certyfikat?</h3>
+<br/>
 <div>
-    <h4>Informacje o certyfikacie: </h4>
+    <h3>Informacje o certyfikacie: </h3>
     @foreach (var value in Model)
     {
         <p><b>Nazwa certyfikatu: </b>@value.CertificateName</p>
@@ -20,10 +27,12 @@
         <form asp-controller="Parameter" asp-action="DeleteCertificateParameter" method="post">
             <input type="hidden" name="idParam" value=@value.Id />
             <input type="hidden" name="nameParam" value=@value.CertificateName />
+            <br />
             <input type="submit" value="Usuń" class="btn btn-primary" />
+            <a asp-action="CertificateParametersForm" class="btn btn-primary" style="width:auto">Anuluj</a>
         </form>
-        <a asp-action="CertificateParametersForm">Powrót do listy certyfikatów</a>
     }
 
 
 </div>
+</body>

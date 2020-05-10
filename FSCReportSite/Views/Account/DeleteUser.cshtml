@@ -13,21 +13,22 @@
 <h1>Usuwanie użytkownika</h1>
 <br>
 <h2>@ViewData["Message"]</h2>
-<br>
-<h3>Czy na pewno chesz usunąć tego użytkownika?</h3>
 <hr />
+<h3>Czy na pewno chesz usunąć tego użytkownika?</h3>
+<br/>
 <div>
-    <h4>Informacje o użytkowniku: </h4>
+    <h3>Informacje o użytkowniku: </h3>
     @foreach (var user in Model)
     {
         <p><b>ID: </b>@user.Id</p>
         <p><b>Email: </b>@user.Email</p>
-
+        <br/>
         <form asp-controller="Account" asp-action="DeleteUser" method="post">
             <input type="hidden" value=@user.Id />
+            <br />
             <input type="submit" value="Usuń" class="btn btn-primary" />
+            <a asp-action="ManageAccounts" class="btn btn-primary" style="width:auto">Powrót do listy użytkowników</a>
         </form>
-        <a asp-action="ManageAccounts">Powrót do listy użytkowników</a>
     }
 </div>
 </body>

@@ -15,19 +15,20 @@
     <h2>@ViewData["Message"]</h2>
     <hr />
     <h3>Czy na pewno chesz usunąć tę rolę?</h3>
-    <hr />
+    <br/>
     <div>
-        <h4>Informacje o roli: </h4>
+        <h3>Informacje o roli: </h3>
         @foreach (var role in Model)
         {
             <p><b>ID: </b>@role.Id</p>
             <p><b>Nazwa: </b>@role.Name</p>
-
+            <br />
             <form asp-controller="Administration" asp-action="DeleteRole" method="post">
                 <input type="hidden" value=@role.Id />
+                <br />
                 <input type="submit" value="Usuń" class="btn btn-primary" />
+                <a asp-action="ManageRoles" class="btn btn-primary" style="width:auto">Anuluj</a>
             </form>
-            <a asp-action="ManageRoles">Powrót do listy ról</a>
         }
     </div>
 </body>

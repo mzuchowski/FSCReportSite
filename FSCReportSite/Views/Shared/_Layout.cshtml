@@ -64,31 +64,37 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="menu_section">
-                            <h3>USTAWIENIA RAPORTÓW</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-cogs"></i>Parametry<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-controller="Parameter" asp-action="PerformanceParametersForm">Współczynnik wydajności</a></li>
-                                        <li><a asp-controller="Parameter" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="menu_section">
-                            <h3>USTAWIENIA</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-user"></i>Konta<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-controller="Account" asp-action="ChangePassword">Zmień hasło</a></li>
-                                        <li><a asp-controller="Account" asp-action="ManageAccounts">Zarządzanie kontami</a></li>
-                                        <li><a asp-controller="Administration" asp-action="ManageRoles">Zarządzanie rolami</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                         {
+                             <div class="menu_section">
+                                 <h3>USTAWIENIA RAPORTÓW</h3>
+                                 <ul class="nav side-menu">
+                                     <li>
+                                         <a><i class="fa fa-cogs"></i>Parametry<span class="fa fa-chevron-down"></span></a>
+                                         <ul class="nav child_menu">
+                                             <li><a asp-controller="Parameter" asp-action="PerformanceParametersForm">Współczynnik wydajności</a></li>
+                                             <li><a asp-controller="Parameter" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
+                                         </ul>
+                                     </li>
+                                 </ul>
+                             </div>
+                             <div class="menu_section">
+                                 <h3>USTAWIENIA</h3>
+                                 <ul class="nav side-menu">
+                                     <li>
+                                         <a><i class="fa fa-user"></i>Użytkownicy<span class="fa fa-chevron-down"></span></a>
+                                         <ul class="nav child_menu">
+                                             <li><a asp-controller="Account" asp-action="ChangePassword">Zmień hasło</a></li>
+                                             @if (User.IsInRole("Admin"))
+                                             {
+                                                 <li><a asp-controller="Account" asp-action="ManageAccounts">Zarządzanie kontami</a></li>
+                                                 <li><a asp-controller="Administration" asp-action="ManageRoles">Zarządzanie rolami</a></li>
+                                             }
+                                         </ul>
+                                     </li>
+                                 </ul>
+                             </div>
+                         }
                         }
                     </div>
                 </div>

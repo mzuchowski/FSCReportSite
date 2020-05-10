@@ -2,53 +2,57 @@
 @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
 @{
-    ViewData["Title"] = "Role";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Zarządzanie rolami";
+    ViewData["Message"] = "";
+    Layout = "_Layout";
 }
 
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 <body>
-    <h2>RoleList</h2>
-    <h3>@ViewData["Message"]</h3>    
-
-<form>
-        <button type="submit" class="btn btn-info btn-sm" asp-controller="Administration" asp-action="AddRole">Dodaj rolę</button>
+    <h1>@ViewData["Title"]</h1>
+    <br />
+    <h2>@ViewData["Message"]</h2>
+    <hr />
+    <form>
+        <button type="submit" class="btn btn-primary" asp-controller="Administration" asp-action="AddRole">Dodaj rolę</button>
     </form>
-
-
+    <br />
     @if (Model.Any())
-{
-    <table class="table  table-striped table-bordered jambo_table">
-        <thead>
-            <tr>
-                <th>Nazwa roli</th>
-                <th>ID</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @try
     {
-        foreach (var role in Model)
-        {
-            <tr>
-                <td>@role.Name</td>
-                <td>@role.Id</td>
-                <td>@Html.ActionLink("Edytuj", "EditRole", "Administration", new{id = role.Id})</td>
-                <td>@Html.ActionLink("Usuń", "DeleteRole", "Administration", new {id= role.Id, roleName =role.Name},new {@style = "color: red"})</td>
-            </tr>
-        }
-    }
-    catch
-    {
+        <table class="table  table-striped table-bordered jambo_table">
+            <thead>
+                <tr>
+                    <th>Nazwa roli</th>
+                    <th>ID</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @try
+                {
+                    foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@role.Name</td>
+                            <td>@role.Id</td>
+                            <td>@Html.ActionLink("Edytuj", "EditRole", "Administration", new { id = role.Id })</td>
+                            <td>@Html.ActionLink("Usuń", "DeleteRole", "Administration", new { id = role.Id, roleName = role.Name }, new { @style = "color: red" })</td>
+                        </tr>
+                    }
+                }
+                catch
+                {
 
+                }
+            </tbody>
+        </table>
     }
-        </tbody>
-    </table>
-}
     else
     {
-    <h2> Brak użytkowników przypisaych do tej roli </h2>
+        <h2> Brak użytkowników przypisaych do tej roli </h2>
     }
 </body>
 

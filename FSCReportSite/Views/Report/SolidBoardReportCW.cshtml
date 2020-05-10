@@ -4,15 +4,19 @@
     ViewData["Title"] = "Raport CW TP";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
 <h1>Raport CW - Tektura Lita</h1>
+<br />
 <h2>@ViewData["Message"]</h2>
+<hr />
 
 <body>
 
     <form>
-        <button type="submit" class="btn btn-info btn-sm" asp-controller="Report" asp-action="ShowLastRepCwTp">Wyświetl ostatni raport</button>
-        <button type="submit" class="btn btn-info btn-sm" asp-controller="Report" asp-action="CreateReportCwTp">Wygeneruj nowy raport</button>
+        <button type="submit" class="btn btn-primary" asp-controller="Report" asp-action="ShowLastRepCwTp">Wyświetl ostatni raport</button>
+        <button type="submit" class="btn btn-primary" asp-controller="Report" asp-action="CreateReportCwTp">Wygeneruj nowy raport</button>
     </form>
 
     @try
@@ -21,29 +25,29 @@
         {
             <table class="table  table-striped table-bordered jambo_table">
                 <thead>
-                <tr>
-                    <th>Rok</th>
-                    <th>Miesiąc</th>
-                    <th>Zakup</th>
-                    <th>Sprzedaż</th>
-                    <th>Różnica</th>
-                    <th>Różnica archiwum</th>
-                    <th><b>Punkty CW</b></th>
-                </tr>
+                    <tr>
+                        <th>Rok</th>
+                        <th>Miesiąc</th>
+                        <th>Zakup</th>
+                        <th>Sprzedaż</th>
+                        <th>Różnica</th>
+                        <th>Różnica archiwum</th>
+                        <th><b>Punkty CW</b></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (ReportCwTp result in Model)
-                {
-                    <tr>
-                        <td>@result.DateYear</td>
-                        <td>@result.DateMonth</td>
-                        <td>@result.PurchasePoints</td>
-                        <td>@result.SalesPoints</td>
-                        <td>@result.DifferencePoints</td>
-                        <td>@result.OldDifferencePoints</td>
-                        <td>@result.AmountOfPoints</td>
-                    </tr>
-                }
+                    @foreach (ReportCwTp result in Model)
+                    {
+                        <tr>
+                            <td>@result.DateYear</td>
+                            <td>@result.DateMonth</td>
+                            <td>@result.PurchasePoints</td>
+                            <td>@result.SalesPoints</td>
+                            <td>@result.DifferencePoints</td>
+                            <td>@result.OldDifferencePoints</td>
+                            <td>@result.AmountOfPoints</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
@@ -56,5 +60,5 @@
     {
 
     }
-    
+
 </body>

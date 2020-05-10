@@ -4,48 +4,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-
-<h2>CertyficateFactorView</h2>
-<h3>@ViewData["Message"]</h3>
-
-<p>Use this area to provide additional information.</p>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
+<h1>@ViewData["Title"]</h1>
+<br />
+<h2>@ViewData["Message"]</h2>
+<hr />
 
 <body>
     <form>
-        <button type="submit" class="btn btn-info btn-sm" asp-controller="Parameter" asp-action="AddCertificateParameter">Dodaj certyfikat</button>
+        <button type="submit" class="btn btn-primary" asp-controller="Parameter" asp-action="AddCertificateParameter">Dodaj certyfikat</button>
     </form>
-<table class="table  table-striped table-bordered jambo_table">
-    <thead>
-        <tr>
-            <th>Certyfikat</th>
-            <th>Współczynnik FSC</th>
-            <th>Współczynnik CW</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @try
-    {
-        foreach (CertificateParameters result in Model)
-        {
-        <tr>
-            <td>@result.CertificateName</td>
-            <td>@result.ParameterFsc</td>
-            <td>@result.ParameterCw</td>
-            <td>@Html.ActionLink("Edytuj","EditCertificateParameter","Parameter",new{idParam = result.Id, certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw})</td>
-            <td>@Html.ActionLink("Usuń","DeleteCertificateParameter","Parameter",new{id=result.Id, certNameParam = result.CertificateName, valueFscParam = result.ParameterFsc, valueCwParam = result.ParameterCw },new{@style="color: red"})</td>
-            <!--certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw -->
-        </tr>
-        }
-    }
-    catch
-    {
-    }
+    <table class="table  table-striped table-bordered jambo_table">
+        <thead>
+            <tr>
+                <th>Certyfikat</th>
+                <th>Współczynnik FSC</th>
+                <th>Współczynnik CW</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @try
+            {
+                foreach (CertificateParameters result in Model)
+                {
+                    <tr>
+                        <td>@result.CertificateName</td>
+                        <td>@result.ParameterFsc</td>
+                        <td>@result.ParameterCw</td>
+                        <td>@Html.ActionLink("Edytuj", "EditCertificateParameter", "Parameter", new { idParam = result.Id, certNameParam = result.CertificateName, valueFscParam = result.ParameterFsc, valueCwParam = result.ParameterCw })</td>
+                        <td>@Html.ActionLink("Usuń", "DeleteCertificateParameter", "Parameter", new { id = result.Id, certNameParam = result.CertificateName, valueFscParam = result.ParameterFsc, valueCwParam = result.ParameterCw }, new { @style = "color: red" })</td>
+                        <!--certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw -->
+                    </tr>
+                }
+            }
+            catch
+            {
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </body>
 
-   
+
 
