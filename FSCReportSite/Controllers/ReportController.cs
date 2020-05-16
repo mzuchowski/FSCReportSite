@@ -79,7 +79,7 @@ namespace FSCReportSite.Controllers
                 rep.GroupPurchasesAndSales("TF") == true &&
                 rep.AddParameters("TF", "FSC") == true &&
                 rep.CalculatePurchuasePoints("TF", "FSC") == true &&
-                rep.AddRowsToReport("TP", "FSC") == true &&
+                rep.AddRowsToReport("TF", "FSC") == true &&
                 rep.AddDataToReport("TF", "FSC") == true &&
                 rep.CalculateDifference("TF", "FSC") == true &&
                 rep.AddDifferenceFromPast("TF", "FSC") == true &&
