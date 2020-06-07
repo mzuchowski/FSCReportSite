@@ -38,63 +38,65 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         @if (signInManager.IsSignedIn(User))
                         {
-                        <br>
-                        <div class="menu_section">
-                            <h3>FSC MIX CREDIT</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-bar-chart"></i> Konto punktowe FSC <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-controller="Report" asp-action="SolidBoardReportFSC">Tektura Lita</a></li>
-                                        <li><a asp-controller="Report" asp-action="CorrugatedBoardReportFsc">Tektura Falista</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                            <br>
+                            <div class="menu_section">
+                                <h3>FSC MIX CREDIT</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a><i class="fa fa-bar-chart"></i> Konto punktowe FSC <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a asp-controller="Report" asp-action="SolidBoardReportFSC">Tektura Lita</a></li>
+                                            <li><a asp-controller="Report" asp-action="CorrugatedBoardReportFsc">Tektura Falista</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
 
-                        <div class="menu_section">
-                            <h3>FSC CONTROL WOOD</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-bar-chart"></i> Konto punktowe CW <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-controller="Report" asp-action="SolidBoardReportCW">Tektura Lita</a></li>
-                                        <li><a asp-controller="Report" asp-action="CorrugatedBoardReportCW">Tektura Falista</a></li>
+                            <div class="menu_section">
+                                <h3>FSC CONTROL WOOD</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a><i class="fa fa-bar-chart"></i> Konto punktowe CW <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a asp-controller="Report" asp-action="SolidBoardReportCW">Tektura Lita</a></li>
+                                            <li><a asp-controller="Report" asp-action="CorrugatedBoardReportCW">Tektura Falista</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            {
+                                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                 {
+                                     <div class="menu_section">
+                                         <h3>USTAWIENIA RAPORTÓW</h3>
+                                         <ul class="nav side-menu">
+                                             <li>
+                                                 <a><i class="fa fa-cogs"></i>Parametry<span class="fa fa-chevron-down"></span></a>
+                                                 <ul class="nav child_menu">
+                                                     <li><a asp-controller="Parameter" asp-action="PerformanceParametersForm">Współczynnik wydajności</a></li>
+                                                     <li><a asp-controller="Parameter" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
+                                                 </ul>
+                                             </li>
+                                         </ul>
+                                     </div>
+                                 }
+                                <div class="menu_section">
+                                    <h3>USTAWIENIA</h3>
+                                    <ul class="nav side-menu">
+                                        <li>
+                                            <a><i class="fa fa-user"></i>Użytkownicy<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a asp-controller="Account" asp-action="ChangePassword">Zmień hasło</a></li>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <li><a asp-controller="Account" asp-action="ManageAccounts">Zarządzanie kontami</a></li>
+                                                    <li><a asp-controller="Administration" asp-action="ManageRoles">Zarządzanie rolami</a></li>
+                                                }
+                                            </ul>
+                                        </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                         {
-                             <div class="menu_section">
-                                 <h3>USTAWIENIA RAPORTÓW</h3>
-                                 <ul class="nav side-menu">
-                                     <li>
-                                         <a><i class="fa fa-cogs"></i>Parametry<span class="fa fa-chevron-down"></span></a>
-                                         <ul class="nav child_menu">
-                                             <li><a asp-controller="Parameter" asp-action="PerformanceParametersForm">Współczynnik wydajności</a></li>
-                                             <li><a asp-controller="Parameter" asp-action="CertificateParametersForm">Parametry certyfikatów</a></li>
-                                         </ul>
-                                     </li>
-                                 </ul>
-                             </div>
-                             <div class="menu_section">
-                                 <h3>USTAWIENIA</h3>
-                                 <ul class="nav side-menu">
-                                     <li>
-                                         <a><i class="fa fa-user"></i>Użytkownicy<span class="fa fa-chevron-down"></span></a>
-                                         <ul class="nav child_menu">
-                                             <li><a asp-controller="Account" asp-action="ChangePassword">Zmień hasło</a></li>
-                                             @if (User.IsInRole("Admin"))
-                                             {
-                                                 <li><a asp-controller="Account" asp-action="ManageAccounts">Zarządzanie kontami</a></li>
-                                                 <li><a asp-controller="Administration" asp-action="ManageRoles">Zarządzanie rolami</a></li>
-                                             }
-                                         </ul>
-                                     </li>
-                                 </ul>
-                             </div>
-                         }
+                                </div>
+                            }
                         }
                     </div>
                 </div>

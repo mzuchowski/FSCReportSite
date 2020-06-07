@@ -18,21 +18,8 @@ namespace FSCReportSite.Controllers
 {
     public class HomeController : Controller
     {
-        
-
-        //  public HomeController(DbContextOptions<SourceDbContext> sourceOptions)
-        // {
-        //     _sourceOptions = sourceOptions;
-        // }
-
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public ViewResult MyAccount()
-        {
-            
             return View();
         }
 
