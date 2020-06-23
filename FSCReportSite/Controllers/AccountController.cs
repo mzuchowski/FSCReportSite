@@ -210,9 +210,6 @@ namespace FSCReportSite.Controllers
 
                 return View("ManageAccounts");
             }
-            
         }
-
-
     }
 }

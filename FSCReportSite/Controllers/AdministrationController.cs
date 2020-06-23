@@ -97,9 +97,6 @@ namespace FSCReportSite.Controllers
 
             if (role == null)
             {
-                //@ViewBag.ErrorMessage(String.Format("Nie odnaleziono roli o ID: {0}", model.Id));
-                // @ViewBag.ErrorMessage("Nie odnaleziono roli o ID");
-
                 return View("_NotFound");
             }
             else
@@ -120,7 +117,6 @@ namespace FSCReportSite.Controllers
 
                 return View(model);
             }
-
         }
 
         [HttpGet]
@@ -250,9 +246,7 @@ namespace FSCReportSite.Controllers
                 }
 
                 return View("ManageRoles");
-                
             }
-
         }
     }
 }

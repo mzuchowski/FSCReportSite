@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Parametry certyfikatu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -37,7 +36,6 @@
                         <td>@result.ParameterCw</td>
                         <td>@Html.ActionLink("Edytuj", "EditCertificateParameter", "Parameter", new { idParam = result.Id, certNameParam = result.CertificateName, valueFscParam = result.ParameterFsc, valueCwParam = result.ParameterCw })</td>
                         <td>@Html.ActionLink("Usuń", "DeleteCertificateParameter", "Parameter", new { id = result.Id, certNameParam = result.CertificateName, valueFscParam = result.ParameterFsc, valueCwParam = result.ParameterCw }, new { @style = "color: red" })</td>
-                        <!--certNameParam =result.CertificateName, valueFscParam=result.ParameterFsc, valueCwParam=result.ParameterCw -->
                     </tr>
                 }
             }

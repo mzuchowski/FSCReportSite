@@ -14,18 +14,14 @@ namespace FSCReportSite.Models
         [Display(Name = "Aktualne hasło")]
         public string CurentPassword { get; set; }
 
-
         [Required]
         [DataType((DataType.Password))]
         [Display(Name = "Nowe hasło")]
         public string NewPassword { get; set; }
 
-
         [DataType((DataType.Password))]
         [Display(Name = "Powtórz nowe hasło")]
         [Compare("NewPassword",ErrorMessage = "Hasła muszą być takie same!")]
         public string ConfirmPassword { get; set; }
-
-
     }
 }

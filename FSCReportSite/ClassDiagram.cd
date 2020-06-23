@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FSCReportSite.Models.AddRoleViewModel">
+    <Position X="1.25" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\AddRoleViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetRoleClaims">
+    <Position X="2" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\AspNetRoleClaims.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetRoles">
+    <Position X="0.75" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAAAAAAAAQAAAAAAAAACBAABAAAAAA=</HashCode>
+      <FileName>Models\AspNetRoles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetUserClaims">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\AspNetUserClaims.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetUserLogins">
+    <Position X="6.75" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAgAAAAAEAAAABAAAAAAAAA=</HashCode>
+      <FileName>Models\AspNetUserLogins.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetUserRoles">
+    <Position X="2.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AspNetUserRoles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetUsers">
+    <Position X="4.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAABCAAoEAIAABAQAABQAAAQAAIARQABAAAAQA=</HashCode>
+      <FileName>Models\AspNetUsers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.AspNetUserTokens">
+    <Position X="6.75" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAwAAAAAEAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\AspNetUserTokens.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ChangePasswordViewModel">
+    <Position X="0.75" Y="10.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAIAA=</HashCode>
+      <FileName>Models\ChangePasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.EditRoleViewModel">
+    <Position X="3.25" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\EditRoleViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ErrorViewModel">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.LoginViewModel">
+    <Position X="5.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Models\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.RegisterViewModel">
+    <Position X="7.25" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ResetPasswordViewModel">
+    <Position X="9.25" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAABIAA=</HashCode>
+      <FileName>Models\ResetPasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.UserRoleViewModel">
+    <Position X="5.25" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAgAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\UserRoleViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.CertificateParameters">
+    <Position X="20.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAABACBAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CertificateParameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.Parameters">
+    <Position X="18.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAAQAQgAAAAgAAAAwAEAAAAAAAAAQgJAAAAAAAI=</HashCode>
+      <FileName>Models\Parameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.PerformanceParameters">
+    <Position X="20.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAAAEAAQAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PerformanceParameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.Purchases">
+    <Position X="19.25" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAQAQQCAAQAIBAAAAAAAICAgAgAAABggAAAAAA=</HashCode>
+      <FileName>Models\Purchases.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.PurchasesDoc">
+    <Position X="21.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAQAQQCAAQAIBAAAAAAAICAgAgAAABggAAAAAA=</HashCode>
+      <FileName>Models\PurchasesDoc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ReportCwTf">
+    <Position X="11.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAgAAAAAAAADAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\ReportCwTf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ReportCwTp">
+    <Position X="13.75" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAgAAAAAAAADAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\ReportCwTp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ReportFscTf">
+    <Position X="11.75" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAgAAAAAAAADAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\ReportFscTf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.ReportFscTp">
+    <Position X="13.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAgAAAAAAAADAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\ReportFscTp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.Reports">
+    <Position X="16" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIABAUAAgQoAAAAAAggIAAAQAAAAAAAARwiABAQAAAA=</HashCode>
+      <FileName>Models\Reports.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.Sales">
+    <Position X="23.75" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQACAAASCQQCAAgAIAAAAAIQAICAgAAAAABAgAAAAAA=</HashCode>
+      <FileName>Models\Sales.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.SalesDoc">
+    <Position X="23.75" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQACAAASCQQCAAgAIAAAAAIQAICAgAAAAABAgAAAAAA=</HashCode>
+      <FileName>Models\SalesDoc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.TotalPurchasesTf">
+    <Position X="13.75" Y="10" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABQiAABAAAAAAAAAAAAAAAACBAAAAQAAAAAI=</HashCode>
+      <FileName>Models\TotalPurchasesTf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.TotalPurchasesTp">
+    <Position X="11.75" Y="10" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABQiAABAAAAAAAAAAAAAAAACBAAAAQAAAAAI=</HashCode>
+      <FileName>Models\TotalPurchasesTp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.TotalSalesTf">
+    <Position X="15.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TotalSalesTf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSCReportSite.Models.TotalSalesTp">
+    <Position X="17.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAQgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TotalSalesTp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -17,8 +17,6 @@ namespace FSCReportSite.Models
         private readonly DbContextOptions<ApplicationDbContext> _options;
         private readonly DbContextOptions<SourceDbContext> _sourceOptions;
 
-        
-
         public Reports(DbContextOptions<ApplicationDbContext> options, DbContextOptions<SourceDbContext> sourceOptions)
         {
             _options = options;
@@ -145,9 +143,7 @@ namespace FSCReportSite.Models
                 {
                     return false;
                 }
-
             }
-
         }
 
         public bool AddRowsToReport(string prodTypeParam, string certTypeParam)
@@ -816,7 +812,6 @@ namespace FSCReportSite.Models
                     errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
-
             }
         }
 
@@ -952,7 +947,6 @@ namespace FSCReportSite.Models
                     errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
-
             }
         }
 
@@ -1006,32 +1000,6 @@ namespace FSCReportSite.Models
                 
             }
         }
-
-      /*  public void CreateReport(string prodTypeParam, string certTypeParam) //Aktualnie nie używane --DODANIE REKORDÓW, TWORZENIE RAPORTU
-        {
-            this.prodType = prodTypeParam;
-            this.certType = certTypeParam;
-            try
-            {
-                if (prodType == "TP")
-                {
-
-                }
-                else if (prodType == "TF")
-                {
-
-                }
-                else
-                {
-                    errorMsg = "Przesłany rodzaj certyfikatu jest nieprawidłowy";
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMsg = ex.Message;
-            }
-        }
-        */
 
         public bool AddDifferenceFromPast(string prodTypeParam, string certTypeParam)
         {
@@ -1136,7 +1104,6 @@ namespace FSCReportSite.Models
                     errorMsg = "Klasa DbContext ma wartość null";
                     return false;
                 }
-
             }
         }
 
@@ -1194,8 +1161,6 @@ namespace FSCReportSite.Models
                     errorMsg = ex.Message;
                     return false;
                 }
-
-
             }
         }
 
@@ -1212,15 +1177,9 @@ namespace FSCReportSite.Models
                         {
                             try
                             {
-                                //var purchaseTp = context.Purchases
-                                //    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='TP'").ToList();
-
                                 var purchaseTp = context.Purchases.Where(p => p.ProductIndex.Substring(0, 2) == "TP").ToList();
                                 purchaseTp.ForEach(a => a.ProductType = "4.1 Testliner");
                                 purchaseTp.ForEach(a => a.ProductGroup = "P.3.2 Tektura Powlekana");
-
-                                //var salesTp = context.Sales
-                                //    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2)='TP'").ToList();
 
                                 var salesTp = context.Sales.Where(s => s.ProductIndex.Substring(0, 2) == "TP").ToList();
                                 salesTp.ForEach(b => b.ProductType = "TEKTURA_PLASKA");
@@ -1247,14 +1206,8 @@ namespace FSCReportSite.Models
                         {
                             try
                             {
-                                //var purchasePf = context.Purchases
-                                //    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF'").ToList();
-
                                 var purchasePf = context.Purchases.Where(p => p.ProductIndex.Substring(0, 2) == "TF").ToList();
                                 purchasePf.ForEach(a => a.ProductGroup = "P.4 Papier Tektura Falista");
-
-                                //var purchasePfAndFlbFhp = context.Purchases
-                                //    .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF' AND SUBSTRING(ProductIndex,4,3)='FHP' OR LEFT(ProductIndex, 2) = 'PF' AND SUBSTRING(ProductIndex, 4, 3)='FLB'").ToList();
 
                                 var purchasePfAndFlbFhp = context.Purchases.Where(p =>
                                         p.ProductIndex.Substring(0, 2) == "PF" &&
@@ -1265,9 +1218,6 @@ namespace FSCReportSite.Models
                                 purchasePfAndFlbFhp.ForEach(b => b.ProductType = "4.2 Fluting");
                                 purchasePfAndFlbFhp.ForEach(b => b.ProductGroup = "P.4 Papier Tektura Falista");
 
-                                //var purchasePfNotFlbFhp = context.Purchases
-                                //  .FromSql("SELECT * FROM Purchases WHERE LEFT(ProductIndex,2)='PF' AND SUBSTRING(ProductIndex,4,3)<>'FHP'AND SUBSTRING(ProductIndex,4,3) <> 'FHP'").ToList();
-
                                 var purchasePfNotFlbFhp = context.Purchases.Where(p =>
                                         p.ProductIndex.Substring(0, 2) == "PF" &&
                                         p.ProductIndex.Substring(4, 3) != "FHP" ||
@@ -1277,15 +1227,9 @@ namespace FSCReportSite.Models
                                 purchasePfNotFlbFhp.ForEach(c => c.ProductType = "4.1 Testliner");
                                 purchasePfNotFlbFhp.ForEach(c => c.ProductGroup = "P.4 Papier Tektura Falista");
 
-                                //var salesPf = context.Sales
-                                //    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2)='PF'").ToList();
-
                                 var salesPf = context.Sales.Where(p => p.ProductIndex.Substring(0, 2) == "PF").ToList();
                                 salesPf.ForEach(d => d.ProductType = "PAPIERY_DO_PRODUKCJI_FALI");
                                 salesPf.ForEach(d => d.ProductGroup = "P.4 Papier Tektura Falista");
-
-                                //var salesTfOr35 = context.Sales
-                                //    .FromSql("SELECT * FROM Sales WHERE LEFT(ProductIndex,2) ='TF' OR LEFT(ProductIndex, 1) = '3' OR LEFT(ProductIndex, 1) = '5'").ToList();
 
                                 var salesTfOr35 = context.Sales.Where(p =>
                                     p.ProductIndex.Substring(0, 2) == "TF" ||
@@ -1359,8 +1303,6 @@ namespace FSCReportSite.Models
                     return false;
                 }
             }
-
         }
-
     }
 }

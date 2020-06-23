@@ -13,7 +13,6 @@ namespace FSCReportSite.Models
         {
             Users = new List<string>();
         }
-
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Nazwa roli jest wymagana!")]

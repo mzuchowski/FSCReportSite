@@ -239,8 +239,6 @@ namespace FSCReportSite.Models
                 return false;
             }
         }
-
-
     }
 }
     
