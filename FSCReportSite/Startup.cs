@@ -36,11 +36,9 @@ namespace FSCReportSite
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Environment.GetEnvironmentVariable("FSCRSDefaultConnectionString", EnvironmentVariableTarget.Machine)));
             services.AddDbContext<SourceDbContext>(sourceOptions =>
-                sourceOptions.UseSqlServer(
-                    Configuration.GetConnectionString("SourceConnection")));
+                sourceOptions.UseSqlServer(Environment.GetEnvironmentVariable("FSCRSSourceConnectionString", EnvironmentVariableTarget.Machine)));
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
                     {
                         options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
