@@ -168,10 +168,10 @@ namespace FSCReportSite.Models
             }
         }
 
-        public bool CheckPerfDate(int yearParam, int monthParam)
+        public bool CheckPerfDate(PerformanceParameters PerfParamDate)
         {
-            int certYear = yearParam;
-            int certMonth = monthParam;
+            int? certYear = PerfParamDate.YearOfDocument;
+            int? certMonth = PerfParamDate.MonthOfDocument;
 
             try
             {

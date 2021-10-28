@@ -87,36 +87,45 @@ namespace FSCReportSite.Controllers
         }
 
         [HttpPost]
-        public ViewResult AddPerformanceParameter(PerformanceParameters model)
+        public ViewResult AddPerformanceParameter(PerformanceParameters perfParamModel)
         {
             if (ModelState.IsValid)
             {
                 Parameters AddParam = new Parameters(_options, _sourceOptions);
 
-                if (model.Tlperformance <= 1 && model.Tfperformance <= 1)
+                if (perfParamModel.Tlperformance <= 1 && perfParamModel.Tfperformance <= 1)
                 {
-                    if (AddParam.CheckPerfDate(Convert.ToInt32(model.YearOfDocument), Convert.ToInt32(model.MonthOfDocument)) == true) //ZMIENIĆ NA SPRAWDZANIE ROKU I MIESIACA
+                    if (perfParamModel.MonthOfDocument > 12)
                     {
-                        var addStatus =AddParam.AddPerfParam(model);
-                        var result = AddParam.ShowPerfParam();
-
-                        if (addStatus)
-                        {
-                            @ViewData["Message"] = "Współczynnik wydajności dla Rok: " + model.YearOfDocument +
-                                                   " Miesiąc: " + model.MonthOfDocument + " został dodany pomyślnie!";
-                            return View("PerformanceParametersForm", result);
-                        }
-                        else
-                        {
-                            string error = AddParam.errorMsg;
-                            @ViewData["Message"] = "Wystąpił problem: " + error;
-                            return View("PerformanceParametersForm", result);
-                        }
+                        @ViewData["Message"] = "Wartość miesiąca nie może być większa niż 12";
+                        return View();
                     }
                     else
                     {
-                        @ViewData["Message"] = "Współczynnik dla podanego roku i miesiąca już istnieje!";
-                        return View();
+
+                        if (AddParam.CheckPerfDate(perfParamModel) == true) //ZMIENIĆ NA SPRAWDZANIE ROKU I MIESIACA
+                        {
+                            var addStatus = AddParam.AddPerfParam(perfParamModel);
+                            var result = AddParam.ShowPerfParam();
+
+                            if (addStatus)
+                            {
+                                @ViewData["Message"] = "Współczynnik wydajności dla Rok: " + perfParamModel.YearOfDocument +
+                                                       " Miesiąc: " + perfParamModel.MonthOfDocument + " został dodany pomyślnie!";
+                                return View("PerformanceParametersForm", result);
+                            }
+                            else
+                            {
+                                string error = AddParam.errorMsg;
+                                @ViewData["Message"] = "Wystąpił problem: " + error;
+                                return View("PerformanceParametersForm", result);
+                            }
+                        }
+                        else
+                        {
+                            @ViewData["Message"] = "Współczynnik dla podanego roku i miesiąca już istnieje!";
+                            return View();
+                        }
                     }
                 }
                 else
@@ -197,7 +206,7 @@ namespace FSCReportSite.Controllers
 
                 if (editStatus)
                 {
-                    @ViewData["Message"] = "Współczynnik dla: " + model.YearOfDocument + "." + model.MonthOfDocument + " został zaktualizowany pomyślnie";
+                    @ViewData["Message"] = "Współczynnik dla daty Rok: " + model.YearOfDocument + " Miesiąc: " + model.MonthOfDocument + " został zaktualizowany pomyślnie";
                     return View("PerformanceParametersForm", result);
                 }
                 else
